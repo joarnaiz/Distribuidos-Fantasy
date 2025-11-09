@@ -47,7 +47,7 @@ public class Jugador {
 	    if (this == j) return true;         
 	    if (j == null || getClass() != j.getClass()) return false; 
 	    Jugador jug = (Jugador) j;
-	    return id == jug.id;                     
+	    return this.id == jug.id;                     
 	}
 	
 
