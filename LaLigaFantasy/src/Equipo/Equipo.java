@@ -19,6 +19,10 @@ public class Equipo {
         this.alineacion = new ArrayList<>();
 	}
 	
+	public int getPuntos() {
+		return this.puntosTotales;
+	}
+	
 	public boolean equipoCompleto() {
 		return this.plantilla.size() == MAX_JUGADORES_PlANTILLA;
 	}
@@ -59,5 +63,9 @@ public class Equipo {
 	    Equipo eq = (Equipo) e;
 	    return this.nombre == eq.nombre;                     
 	} 
+	
+	public String toString() {
+		return this.nombre + " con " + this.puntosTotales;
+	}
 
 }
