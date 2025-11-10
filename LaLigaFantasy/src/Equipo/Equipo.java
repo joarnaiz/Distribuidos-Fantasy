@@ -40,7 +40,7 @@ public class Equipo {
 	}
 	
 	
-	//Montar el once inicial
+	//Alinear el once inicial
 	
 	public void mostrarPlantilla() {
 		System.out.println("Plantilla de " +this.nombre + " :");
