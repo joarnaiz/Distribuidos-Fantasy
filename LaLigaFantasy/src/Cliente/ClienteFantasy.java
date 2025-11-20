@@ -16,10 +16,13 @@ public class ClienteFantasy {
 			
 			switch(opcion) {
 				case 1:
+					menuEquipo();
 					break;
 				case 2:
+					menuLiga();
 					break;
 				case 3:
+					menuMercado();
 					break;
 				case 4:
 					break;
@@ -32,7 +35,7 @@ public class ClienteFantasy {
 	}
 	
 	
-	public static void menuPrincipal() {
+	private static void menuPrincipal() {
 		System.out.println("==============================================");
 		System.out.println("     DISTRIBUIDOS FANTASY--MENU PRINCIPAL"     );
 		System.out.println("==============================================");
@@ -45,5 +48,31 @@ public class ClienteFantasy {
 		System.out.println("---------------------------");
 		System.out.println();
 	}
-
+	
+	private static void menuEquipo() {
+		System.out.println("--- SECCION Equipo ---");
+        System.out.println("1. Ver Plantilla");
+        System.out.println("2. Ver once");
+        System.out.println("3. Alinear jugadores");
+        System.out.println("4. Volver al Menu Principal");
+        System.out.println();
+	}
+	
+	private static void menuLiga() {
+		System.out.println("--- SECCION LIGA ---");
+        System.out.println("1. Ver Clasificacion General");
+        System.out.println("2. Ver Puntos Ultima Jornada");
+        System.out.println("3. Ojear Equipo");
+        System.out.println("4. Volver al Menu Principal");
+        System.out.println();
+	}
+	
+	private static void menuMercado() {
+		System.out.println("--- SECCION MERCADO ---");
+        System.out.println("1. Ver Jugadores en Venta");
+        System.out.println("2. Pujar Jugador");
+        System.out.println("3. Poner a la venta un jugador mio");
+        System.out.println("4. Volver al Menu Principal");
+        System.out.println();
+	}
 }
