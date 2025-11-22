@@ -1,11 +1,12 @@
 package Liga;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import Equipo.Equipo;
 
-public class Liga {
+public class Liga implements Serializable{
 	
 	private String nombre;
 	private static final int MAX_EQUIPOS = 20;

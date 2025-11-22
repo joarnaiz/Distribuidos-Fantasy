@@ -7,10 +7,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import Equipo.Equipo;
+import Jugador.Jugador;
 import Liga.Liga;
 
 public class Servidor {
@@ -33,6 +35,13 @@ public class Servidor {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static ArrayList<Jugador> crearJugadores(){
+		ArrayList<Jugador> jugadores = new ArrayList<>();
+		
+		
+		return jugadores;
 	}
 
 }

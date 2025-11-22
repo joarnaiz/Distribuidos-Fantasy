@@ -1,7 +1,8 @@
 package Jugador;
 
+import java.io.Serializable;
 
-public class Jugador {
+public class Jugador implements Serializable{
 
 	private static int contadorId = 0;
 	private int id;

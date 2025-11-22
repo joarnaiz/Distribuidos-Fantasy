@@ -3,14 +3,17 @@ package Equipo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Alineacion.Alineacion;
 import Jugador.Jugador;
 
 public class Equipo implements Serializable{
 	
+	//POner el atributo de serializable(en alguna de las practicas esta, ya lo mirare)
+	
 	private String nombre;
 	private int puntosTotales;
 	private ArrayList<Jugador> plantilla;
-	private ArrayList<Jugador> alineacion;
+	private Alineacion alineacion;
 	private static final int MAX_JUGADORES_PlANTILLA = 22;
 	private static final int TITULARES = 11;
 	public double Saldo;
@@ -18,8 +21,8 @@ public class Equipo implements Serializable{
 	public Equipo(String nom) {
 		this.nombre = nom;
 		this.plantilla = new ArrayList<>();
-        this.alineacion = new ArrayList<>();
         this.Saldo=100000000;
+        this.alineacion = new Alineacion();
 	}
 	public String getNombre() {
 		return this.nombre;
