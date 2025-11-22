@@ -90,6 +90,24 @@ public class ClienteFantasy {
         System.out.println("3. Alinear jugadores");
         System.out.println("4. Volver al Menu Principal");
         System.out.println();
+        
+        boolean salir=false;
+        while(!salir) {
+        	Scanner s = new Scanner(System.in);
+            int opcion = s.nextInt();
+            switch(opcion) {
+	            case 1:
+	            	break;
+	            case 2:
+	            	break;
+	            case 3:
+	            	break;
+	            case 4:
+	            	break;
+	            default:
+	            	System.out.println("Numero Incorrecto");
+            }
+        }        
 	}
 	
 	private static void menuLiga() {
@@ -99,6 +117,24 @@ public class ClienteFantasy {
         System.out.println("3. Ojear Equipo");
         System.out.println("4. Volver al Menu Principal");
         System.out.println();
+        
+        boolean salir=false;
+        while(!salir) {
+        	Scanner s = new Scanner(System.in);
+            int opcion = s.nextInt();
+            switch(opcion) {
+	            case 1:
+	            	break;
+	            case 2:
+	            	break;
+	            case 3:
+	            	break;
+	            case 4:
+	            	break;
+	            default:
+	            	System.out.println("Numero Incorrecto");
+            }
+        }
 	}
 	
 	private static void menuMercado() {
@@ -108,5 +144,23 @@ public class ClienteFantasy {
         System.out.println("3. Poner a la venta un jugador mio");
         System.out.println("4. Volver al Menu Principal");
         System.out.println();
+        
+        boolean salir=false;
+        while(!salir) {
+        	Scanner s = new Scanner(System.in);
+            int opcion = s.nextInt();
+            switch(opcion) {
+	            case 1:
+	            	break;
+	            case 2:
+	            	break;
+	            case 3:
+	            	break;
+	            case 4:
+	            	break;
+	            default:
+	            	System.out.println("Numero Incorrecto");
+            }
+        }
 	}
 }

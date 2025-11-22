@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import Equipo.Equipo;
+import Liga.Liga;
 
 public class Servidor {
 	public static void main(String[] args) {
@@ -20,7 +21,8 @@ public class Servidor {
 				try {
 					Socket cliente = server.accept();
 					
-					Usuarios u = new Usuarios(cliente);
+					Liga liga = new Liga("Distribuidos-Fantasy");
+					Usuarios u = new Usuarios(cliente, liga);
 					usuarios.execute(u);
 					
 					
@@ -38,10 +40,11 @@ public class Servidor {
 class Usuarios implements Runnable{
 	
 	private Socket cliente;
+	private Liga liga;
 	
-	public Usuarios(Socket s) {
+	public Usuarios(Socket s,Liga l) {
 		this.cliente = s;
-		
+		this.liga=l;	
 	}
 	
 	public void run() {
@@ -51,7 +54,10 @@ class Usuarios implements Runnable{
 				ObjectInputStream ois  = new ObjectInputStream(in);){
 			
 			String nombreEquipo = (String)ois.readObject();
-			System.out.println(nombreEquipo);
+			Equipo equipoCliente = new Equipo(nombreEquipo);
+			this.liga.aniadirEquipo(equipoCliente);
+			
+			
 			
 		}catch(IOException e) {
 			e.printStackTrace();

@@ -20,13 +20,21 @@ public class Liga {
 		return this.clasificacion.size()==MAX_EQUIPOS;
 	}
 	
-	public void aniadirEquipo(Equipo e) {
+	public synchronized String aniadirEquipo(Equipo e) {
 		if(!ligaCompleta()) {
-			this.clasificacion.add(e);
+			for(Equipo eq : this.clasificacion) {
+				if(eq.getNombre().equalsIgnoreCase(e.getNombre())) {
+					return "Equipo existente";
+				}
+			}
+			
 		}else {
-			System.out.println("Liga completa");
+			return "Liga completa";
 		}
+		this.clasificacion.add(e);
+		return "Se ha unido a la Liga";
 	}
+	
 	
 	public void actualizarClasificacion() {
 		this.clasificacion.sort(Comparator.comparingInt(Equipo::getPuntos).reversed());
