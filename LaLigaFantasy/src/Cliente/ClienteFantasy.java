@@ -5,10 +5,17 @@ import java.util.Scanner;
 public class ClienteFantasy {
 
 	public static void main(String[] args) {
+		Scanner nE = new Scanner(System.in);
+		System.out.println("Escribe el nombre de tu Equipo Fantasy");
+		String nombre = nE.nextLine();
+		
+		//Mandamos al servidor el nombre del equipo, este lo guarda, nos asigna a un equipo, nos mete en la lida...
+		//Y ya entramos al menu principal para gestionar nuestro equipo
 		
 		boolean salir=false;
 		int opcion=0;
 		Scanner s = new Scanner(System.in);
+	
 		
 		while(!salir) {
 			menuPrincipal();
