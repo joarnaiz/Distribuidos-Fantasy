@@ -1,43 +1,70 @@
 package Cliente;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class ClienteFantasy {
 
 	public static void main(String[] args) {
-		Scanner nE = new Scanner(System.in);
-		System.out.println("Escribe el nombre de tu Equipo Fantasy");
-		String nombre = nE.nextLine();
 		
-		//Mandamos al servidor el nombre del equipo, este lo guarda, nos asigna a un equipo, nos mete en la lida...
-		//Y ya entramos al menu principal para gestionar nuestro equipo
-		
-		boolean salir=false;
-		int opcion=0;
-		Scanner s = new Scanner(System.in);
-	
-		
-		while(!salir) {
-			menuPrincipal();
-			opcion = s.nextInt();
+		try(Socket socket = new Socket("localhost",7777);
+				InputStream in = socket.getInputStream();
+				OutputStream out = socket.getOutputStream();
+				ObjectInputStream ois  = new ObjectInputStream(in); 
+				ObjectOutputStream oos = new ObjectOutputStream(out)){
 			
-			switch(opcion) {
-				case 1:
-					menuEquipo();
-					break;
-				case 2:
-					menuLiga();
-					break;
-				case 3:
-					menuMercado();
-					break;
-				case 4:
-					break;
-				default:
-					System.out.println("Opción incorrecta");
+			
+			
+			
+			System.out.println("Escribe el nombre de tu Equipo Fantasy");
+			Scanner nE = new Scanner(System.in);
+			String nombre = nE.nextLine();
+			
+			oos.writeObject(nombre);
+			oos.flush();
+			
+			//Mandamos al servidor el nombre del equipo, este lo guarda, nos asigna a un equipo, nos mete en la lida...
+			//Y ya entramos al menu principal para gestionar nuestro equipo
+			
+			boolean salir=false;
+			int opcion=0;
+			Scanner s = new Scanner(System.in);
+		
+			
+			while(!salir) {
+				menuPrincipal();
+				opcion = s.nextInt();
+				
+				switch(opcion) {
+					case 1:
+						menuEquipo();
+						break;
+					case 2:
+						menuLiga();
+						break;
+					case 3:
+						menuMercado();
+						break;
+					case 4:
+						break;
+					default:
+						System.out.println("Opción incorrecta");
+				}
+				
 			}
 			
+			s.close();
+			nE.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
 		
 	}
 	
