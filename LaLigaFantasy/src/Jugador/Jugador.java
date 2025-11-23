@@ -8,7 +8,7 @@ public class Jugador implements Serializable{
 	private int id;
 	private String nombre;
 	private String equipo;
-	private String posicion;
+	private Posicion posicion;
 	private double valor;
 	private int puntos;
 	
@@ -17,7 +17,7 @@ public class Jugador implements Serializable{
 		this.id = contadorId++;
 		this.nombre = nomb;
 		this.posicion = pos;
-		this.equipo=eq;
+		this.equipo = eq;
 		this.valor = val;
 		this.puntos = 0;
 	}
@@ -57,5 +57,19 @@ public class Jugador implements Serializable{
 				+ " puntos " + this.puntos;
 		return jugador;
 	}
+	
+	public boolean esPortero() {
+        return this.posicion == Posicion.PORTERO;
+    }
 
+    public boolean esJugadorDeCampo() {
+        return this.posicion == Posicion.DECAMPO;
+    }
+
+}
+
+
+public enum Posicion {
+    PORTERO,
+    DECAMPO
 }

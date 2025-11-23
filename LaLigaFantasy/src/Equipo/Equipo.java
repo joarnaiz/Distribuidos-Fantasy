@@ -53,7 +53,7 @@ public class Equipo implements Serializable{
 	
 	
 	public boolean onceCompleto() {
-		return this.alineacion.size() == TITULARES;
+		return this.alineacion.estaCompleta();
 	}
 	
 	public String aniadirJugador(Jugador j) {
