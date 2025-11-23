@@ -5,16 +5,26 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import Equipo.Equipo;
+import Jugador.Jugador;
 
 public class Liga implements Serializable{
 	
 	private String nombre;
 	private static final int MAX_EQUIPOS = 20;
 	private ArrayList<Equipo> clasificacion;
+	private ArrayList<Jugador> jugadoresDisponibles;
 	
 	public Liga(String nomb) {
 		this.nombre=nomb;
 		this.clasificacion = new ArrayList<Equipo>();
+		this.jugadoresDisponibles = new ArrayList<Jugador>();
+	}
+	
+	public ArrayList<Jugador> getJugadoresDisponibles(){
+		return this.jugadoresDisponibles;
+	}
+	public void setJugadoresDisponibles(ArrayList<Jugador> libres) {
+		this.jugadoresDisponibles=libres;
 	}
 	
 	public boolean ligaCompleta() {

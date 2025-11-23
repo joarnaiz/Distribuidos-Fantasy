@@ -78,7 +78,7 @@ public class Equipo implements Serializable{
 	
 	public void mostrarAlineacion() {
 		System.out.println("Once inicial de " +this.nombre + " :");
-		for(Jugador j : this.alineacion) {
+		for(Jugador j : this.alineacion.getJugadoresDeCampo()) {
 			System.out.println(j);
 		}
 	}

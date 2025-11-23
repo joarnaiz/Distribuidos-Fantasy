@@ -16,10 +16,15 @@ public class Jugador implements Serializable{
 		
 		this.id = contadorId++;
 		this.nombre = nomb;
-		this.posicion = pos;
 		this.equipo = eq;
 		this.valor = val;
 		this.puntos = 0;
+		
+		if(pos.equalsIgnoreCase("Portero")) {
+			this.posicion=Posicion.PORTERO;
+		}else {
+			this.posicion=Posicion.DECAMPO;
+		}
 	}
 	
 	public String getNombre() {
@@ -28,7 +33,7 @@ public class Jugador implements Serializable{
 	public String getEquipo() {
 		return this.equipo;
 	}
-	public String getPosicion() {
+	public Posicion getPosicion() {
 		return this.posicion;
 	}
 	public int getPuntos() {
@@ -69,7 +74,3 @@ public class Jugador implements Serializable{
 }
 
 
-public enum Posicion {
-    PORTERO,
-    DECAMPO
-}

@@ -98,12 +98,13 @@ public class Alineacion implements Serializable{
 		}
 		
 		boolean aniadido = aniadirJugador(dentro);
-		if (!aniadidio) {
+		if (!aniadido) {
 			aniadirJugador(fuera); // Si falla, volvemos a meter al jugador que se ha ido para que quede igual
 			System.out.println("No se pudo añadir al jugador");
 			return false;
 		}
-		System.out.println("El jugador " + fuera.getNombre() + " ha sido sustituido por " + dentro.getNombre())
+		System.out.println("El jugador " + fuera.getNombre() + " ha sido sustituido por " + dentro.getNombre());
+		return true;
 	}
 	
 	public void limpiarAlineacion() {

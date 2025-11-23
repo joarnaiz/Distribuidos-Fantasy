@@ -8,23 +8,35 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 import Equipo.Equipo;
+import GeneradorJugadores.Generador;
 import Jugador.Jugador;
 import Liga.Liga;
 
 public class Servidor {
+	
+	private static Liga liga= new Liga("Distribuidos-Fantasy");
+	
 	public static void main(String[] args) {
 		ExecutorService usuarios = Executors.newFixedThreadPool(20);
-		try(ServerSocket server = new ServerSocket(7777)){
+		
+		Generador g = new Generador();
+		liga.setJugadoresDisponibles(g.generar(100));
+		
+		Semaphore semaforoAdquirirJugaores = new Semaphore(1);
+		
+		try(ServerSocket server = new ServerSocket(7777)){	
 			while(true) {
-				try {
+				try {		
 					Socket cliente = server.accept();
 					
-					Liga liga = new Liga("Distribuidos-Fantasy");
-					Usuarios u = new Usuarios(cliente, liga);
+					Usuarios u = new Usuarios(cliente, liga,semaforoAdquirirJugaores);
 					usuarios.execute(u);
 					
 					
@@ -50,10 +62,14 @@ class Usuarios implements Runnable{
 	
 	private Socket cliente;
 	private Liga liga;
+	private Equipo equipo;
+	private Semaphore semaforo;
 	
-	public Usuarios(Socket s,Liga l) {
+	
+	public Usuarios(Socket s,Liga l,Semaphore sem) {
 		this.cliente = s;
 		this.liga=l;	
+		this.semaforo=sem;
 	}
 	
 	public void run() {
@@ -63,14 +79,52 @@ class Usuarios implements Runnable{
 				ObjectInputStream ois  = new ObjectInputStream(in);){
 			
 			String nombreEquipo = (String)ois.readObject();
-			Equipo equipoCliente = new Equipo(nombreEquipo);
-			this.liga.aniadirEquipo(equipoCliente);
+			this.equipo = new Equipo(nombreEquipo);
 			
+			this.liga.aniadirEquipo(this.equipo);
+			
+			this.semaforo.acquire();
+			
+			Collections.shuffle(this.liga.getJugadoresDisponibles());
+			
+			Iterator<Jugador> it = this.liga.getJugadoresDisponibles().iterator();
+	        while (it.hasNext()) {
+	            Jugador j = it.next();
+	            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
+	                this.equipo.aniadirJugador(j);
+	                it.remove(); 
+	                break;
+	            }
+	        }
+	        
+	        int contador = 0;
+	        it = this.liga.getJugadoresDisponibles().iterator(); 
+	        while (it.hasNext() && contador < 10) {
+	            Jugador j = it.next();
+	            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
+	                this.equipo.aniadirJugador(j);
+	                it.remove();
+	                contador++;
+	            }
+	        }
+	        
+	        this.semaforo.release();
+	        
+	        String opcion = (String)ois.readObject();
+	        
+	        if(opcion.equalsIgnoreCase("Ver plantilla")) {
+	        	oos.writeObject(this.equipo);
+	        	oos.flush();
+	        }
+	        
 			
 			
 		}catch(IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

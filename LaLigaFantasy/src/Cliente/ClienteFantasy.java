@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import Equipo.Equipo;
+
 public class ClienteFantasy {
 
 	public static void main(String[] args) {
@@ -43,13 +45,13 @@ public class ClienteFantasy {
 				
 				switch(opcion) {
 					case 1:
-						menuEquipo();
+						menuEquipo(ois,oos);
 						break;
 					case 2:
-						menuLiga();
+						menuLiga(ois,oos);
 						break;
 					case 3:
-						menuMercado();
+						menuMercado(ois,oos);
 						break;
 					case 4:
 						break;
@@ -83,7 +85,7 @@ public class ClienteFantasy {
 		System.out.println();
 	}
 	
-	private static void menuEquipo() {
+	private static void menuEquipo(ObjectInputStream ois,ObjectOutputStream oos) {
 		System.out.println("--- SECCION Equipo ---");
         System.out.println("1. Ver Plantilla");
         System.out.println("2. Ver once");
@@ -97,6 +99,20 @@ public class ClienteFantasy {
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
+	            	try {
+
+	                    String m = "Ver plantilla";
+	                    oos.writeObject(m);
+	                    oos.flush();
+
+	                    Equipo e = (Equipo)ois.readObject();
+	                    e.mostrarPlantilla();
+	            	}catch(IOException e) {
+	                    e.printStackTrace();
+	                }catch (ClassNotFoundException e1) {
+	                    e1.printStackTrace();
+	                }
+	            	
 	            	break;
 	            case 2:
 	            	break;
@@ -110,7 +126,7 @@ public class ClienteFantasy {
         }        
 	}
 	
-	private static void menuLiga() {
+	private static void menuLiga(ObjectInputStream ois,ObjectOutputStream oos) {
 		System.out.println("--- SECCION LIGA ---");
         System.out.println("1. Ver Clasificacion General");
         System.out.println("2. Ver Puntos Ultima Jornada");
@@ -137,7 +153,7 @@ public class ClienteFantasy {
         }
 	}
 	
-	private static void menuMercado() {
+	private static void menuMercado(ObjectInputStream ois,ObjectOutputStream oos) {
 		System.out.println("--- SECCION MERCADO ---");
         System.out.println("1. Ver Jugadores en Venta");
         System.out.println("2. Pujar Jugador");
