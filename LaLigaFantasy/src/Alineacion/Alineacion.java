@@ -25,10 +25,10 @@ public class Alineacion implements Serializable{
 		if (j.esPortero()) {
 			if (this.portero == null) {
 				this.portero = j;
-				System.out.println("Portero " + j.getNombre() + " añadido correctamente");
+				//System.out.println("Portero " + j.getNombre() + " añadido correctamente");
 				return true;
 			} else {
-				System.out.println("Ya hay un portero en la alineación");
+				//System.out.println("Ya hay un portero en la alineación");
 				return false;
 			}
 		}

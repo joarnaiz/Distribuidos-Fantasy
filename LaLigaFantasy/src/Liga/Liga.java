@@ -54,7 +54,7 @@ public class Liga implements Serializable{
 	public void verClasificacion() {
 		System.out.println("Clasificacion de la liga " + this.nombre + " :");
 		for(Equipo e : this.clasificacion) {
-			System.out.print(e.toString());
+			System.out.print(e);
 		}
 	}
 }

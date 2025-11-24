@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import Equipo.Equipo;
+import Liga.Liga;
 
 public class ClienteFantasy {
 
@@ -94,8 +95,8 @@ public class ClienteFantasy {
         System.out.println();
         
         boolean salir=false;
-        while(!salir) {
-        	Scanner s = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
+        while(!salir) {        	
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
@@ -115,10 +116,26 @@ public class ClienteFantasy {
 	            	
 	            	break;
 	            case 2:
+	            	
+	            	try {
+
+	                    String m = "Ver once";
+	                    oos.writeObject(m);
+	                    oos.flush();
+
+	                    Equipo e = (Equipo)ois.readObject();
+	                    e.mostrarAlineacion();
+	            	}catch(IOException e) {
+	                    e.printStackTrace();
+	                }catch (ClassNotFoundException e1) {
+	                    e1.printStackTrace();
+	                }
+	            	
 	            	break;
 	            case 3:
 	            	break;
 	            case 4:
+	            	salir = true;
 	            	break;
 	            default:
 	            	System.out.println("Numero Incorrecto");
@@ -135,17 +152,32 @@ public class ClienteFantasy {
         System.out.println();
         
         boolean salir=false;
-        while(!salir) {
-        	Scanner s = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
+        while(!salir) { 	
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
+	            	
+				try {
+					String m = "Ver clasificacion";
+					oos.writeObject(m);
+					
+					Liga l = (Liga) ois.readObject();
+					l.verClasificacion();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            	
 	            	break;
 	            case 2:
 	            	break;
 	            case 3:
 	            	break;
 	            case 4:
+	            	salir = true;
 	            	break;
 	            default:
 	            	System.out.println("Numero Incorrecto");
@@ -162,8 +194,8 @@ public class ClienteFantasy {
         System.out.println();
         
         boolean salir=false;
+    	Scanner s = new Scanner(System.in);
         while(!salir) {
-        	Scanner s = new Scanner(System.in);
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
@@ -173,6 +205,7 @@ public class ClienteFantasy {
 	            case 3:
 	            	break;
 	            case 4:
+	            	salir = true;
 	            	break;
 	            default:
 	            	System.out.println("Numero Incorrecto");

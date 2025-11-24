@@ -65,9 +65,9 @@ public class Equipo implements Serializable{
 		}
 	}
 	
-	
-	
-	//Alinear el once inicial
+	public Alineacion getAlineacion() {
+		return this.alineacion;
+	}
 	
 	public void mostrarPlantilla() {
 		System.out.println("Plantilla de " +this.nombre + " :");
@@ -92,7 +92,7 @@ public class Equipo implements Serializable{
 	} 
 	
 	public String toString() {
-		return this.nombre + " con " + this.puntosTotales;
+		return this.nombre + " con " + this.puntosTotales +"\n";
 	}
 
 }

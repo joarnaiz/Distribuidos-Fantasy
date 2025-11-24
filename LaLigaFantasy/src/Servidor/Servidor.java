@@ -48,14 +48,6 @@ public class Servidor {
 			e.printStackTrace();
 		}
 	}
-	
-	public static ArrayList<Jugador> crearJugadores(){
-		ArrayList<Jugador> jugadores = new ArrayList<>();
-		
-		
-		return jugadores;
-	}
-
 }
 
 class Usuarios implements Runnable{
@@ -110,12 +102,36 @@ class Usuarios implements Runnable{
 	        
 	        this.semaforo.release();
 	        
-	        String opcion = (String)ois.readObject();
+	        for(Jugador j : this.equipo.getJugadores()) {
+    			this.equipo.getAlineacion().aniadirJugador(j);
+    		}
 	        
-	        if(opcion.equalsIgnoreCase("Ver plantilla")) {
-	        	oos.writeObject(this.equipo);
-	        	oos.flush();
+	        boolean salir = false;
+	        while(!salir) {
+	        	String opcion = (String)ois.readObject();        
+		        switch(opcion) {
+		        	case "Ver plantilla":
+		        		oos.writeObject(this.equipo);
+		        		oos.reset();
+			        	oos.flush();
+			        	break;
+		        	case "Ver once":
+		        		oos.writeObject(this.equipo);
+		        		oos.reset();
+			        	oos.flush();
+			        	break;
+			        
+			        	
+			        //LIGA
+			        	
+		        	case "Ver clasificacion":
+		        		oos.writeObject(this.liga);
+		        		oos.reset();
+		        		oos.flush();
+		        		break;	
+		        }
 	        }
+	        
 	        
 			
 			
