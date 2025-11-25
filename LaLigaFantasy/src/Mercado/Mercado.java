@@ -6,9 +6,11 @@ import Jugador.Jugador;
 
 public class Mercado {
 
-	private ArrayList<Jugador> jugadoresDisponibles;
+	private List<Jugador> jugadoresDisponibles;
+	private List<Jugador> poolJugadores;
 	
-	public Mercado() {
+	public Mercado(List<Jugador> poolJugadores) {
+		this.poolJugadores = new ArrayList<>(poolJugadores);
 		this.jugadoresDisponibles = new ArrayList<Jugador>();
 	}
 	
