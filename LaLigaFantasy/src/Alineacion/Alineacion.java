@@ -71,7 +71,7 @@ public class Alineacion implements Serializable{
 				System.out.println("No tienes jugadores de campo alineados");
 			} else {
 				for (Jugador j : this.jugadoresDeCampo) {
-					System.out.println("    " + j);
+					System.out.println("   " + j);
 				}
 			}
 		}

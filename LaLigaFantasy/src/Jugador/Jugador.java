@@ -12,19 +12,14 @@ public class Jugador implements Serializable{
 	private double valor;
 	private int puntos;
 	
-	public Jugador(String nomb,String pos,String eq,double val) {
+	public Jugador(String nomb, Posicion pos, String eq, double val) {
 		
 		this.id = contadorId++;
 		this.nombre = nomb;
 		this.equipo = eq;
 		this.valor = val;
 		this.puntos = 0;
-		
-		if(pos.equalsIgnoreCase("Portero")) {
-			this.posicion=Posicion.PORTERO;
-		}else {
-			this.posicion=Posicion.DECAMPO;
-		}
+		this.posicion = pos; // Si le pasamos directamente un objeto de tipo posicion no hace falta convertirlo
 	}
 	
 	public String getNombre() {
@@ -61,9 +56,9 @@ public class Jugador implements Serializable{
 	
 
 	public String toString() {
-		String jugador = "Nombre: " + this.nombre + " Equipo: " + this.equipo + " Posicion: " + this.posicion + " valor: " + this.valor
-				+ " puntos " + this.puntos + " ID: " + this.id;
-		return jugador;
+		String stringJugador = "Nombre: " + this.nombre + "  Equipo: " + this.equipo + "  Posicion: " + this.posicion + "  Valor: " + this.valor
+				+ "  Puntos: " + this.puntos + "  ID: " + this.id;
+		return stringJugador;
 	}
 	
 	public boolean esPortero() {
