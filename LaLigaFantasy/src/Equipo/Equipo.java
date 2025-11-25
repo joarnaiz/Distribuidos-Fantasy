@@ -68,17 +68,8 @@ public class Equipo implements Serializable{
 	public Alineacion getAlineacion() {
 		return this.alineacion;
 	}
-	
-	public boolean existeJugador(int id) {
-		for(Jugador j : this.plantilla) {
-			if(j.getId()==id) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public Jugador jugadorEquipo(int id) {
+		
+	public Jugador jugadorEnEquipo(int id) { //Si el jugador esta en el equipo devuelve el jugador, si no devuelve null
 		Jugador jug = null;
 		for(Jugador j:this.plantilla) {
 			if(j.getId()==id) {
@@ -88,16 +79,24 @@ public class Equipo implements Serializable{
 		return jug;
 	}
 	
-	public String sustituirJugador(int sale,int entra) {
+	public String alinearJugador(int idJugador) {
+		Jugador j = jugadorEnEquipo(idJugador);
+		String resultado = "El jugador no existe en la plantilla";
 		
-		Jugador jEntra = null;
-		Jugador jSale = null;
+		if(j!=null) {
+			resultado = this.alineacion.aniadirJugador(j);
+		}
+		return resultado;
+	}
+	
+	
+	public String sustituirJugador(int sale,int entra) { //Los sustituye en la alineacion
+		
+		Jugador jEntra = jugadorEnEquipo(entra);
+		Jugador jSale = jugadorEnEquipo(sale);
 		String resultado="Los jugadores se han sustituido correctamente";
 		
-		if(existeJugador(sale) && existeJugador(entra)) {
-			jEntra = jugadorEquipo(entra);
-			jSale = jugadorEquipo(sale);
-			
+		if(jEntra!=null && jSale!=null) {			
 			if(!this.alineacion.eliminarJugador(jSale)) {
 				resultado = "El jugador que quieres cambiar no está alineado";
 			}else {

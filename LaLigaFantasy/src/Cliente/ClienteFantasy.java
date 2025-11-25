@@ -97,7 +97,8 @@ public class ClienteFantasy {
             System.out.println("1. Ver Plantilla");
             System.out.println("2. Ver once");
             System.out.println("3. Alinear jugadores");
-            System.out.println("4. Volver al Menu Principal");
+            System.out.println("4. Sustituir jugadores");
+            System.out.println("5. Volver al Menu Principal");
             System.out.println("-----------------------------");
             System.out.println();
             
@@ -143,6 +144,29 @@ public class ClienteFantasy {
 		            	oos.writeObject(m);
 		            	oos.flush();
 	                    
+		            	System.out.println("Elige el id del jugador que quieres añadir");
+		            	int jugador = s.nextInt();
+		            	
+		            	oos.writeObject(jugador);
+		            	oos.flush();
+		            	
+		            	String respuesta = (String) ois.readObject();
+		            	System.out.println(respuesta);
+		            	
+	            	}catch(IOException e) {
+	            		e.printStackTrace();
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
+	            	break;
+	            case 4:
+	            	try {
+	            		String m = "Sustituir jugador";
+		            	oos.writeObject(m);
+		            	oos.flush();
+	                    
 		            	System.out.println("Elige el id del jugador que quieres cambiar");
 		            	int jSale = s.nextInt();
 		            	System.out.println("Elige el id del jugador que quieres añadir a tu once");
@@ -161,9 +185,8 @@ public class ClienteFantasy {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	            	
 	            	break;
-	            case 4:
+	            case 5:
 	            	salir = true;
 	            	break;
 	            default:

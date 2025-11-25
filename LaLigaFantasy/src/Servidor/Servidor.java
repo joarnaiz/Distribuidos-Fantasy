@@ -125,6 +125,14 @@ class Usuarios implements Runnable{
 			        	oos.flush();
 			        	break;
 		        	case "Alinear jugador":
+		        		int idJugador =(Integer)ois.readObject();
+		        		String aniadido=this.equipo.alinearJugador(idJugador);
+		        		
+		        		oos.writeObject(aniadido);
+			        	oos.flush();
+		        		
+		        		break;
+		        	case "Sustituir jugador":
 		        		int idSale = (Integer)ois.readObject();
 		        		int idEntra = (Integer)ois.readObject();
 			        	String resultado=this.equipo.sustituirJugador(idSale, idEntra);
