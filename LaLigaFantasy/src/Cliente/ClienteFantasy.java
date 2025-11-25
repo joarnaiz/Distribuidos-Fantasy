@@ -87,16 +87,20 @@ public class ClienteFantasy {
 	}
 	
 	private static void menuEquipo(ObjectInputStream ois,ObjectOutputStream oos) {
-		System.out.println("--- SECCION Equipo ---");
-        System.out.println("1. Ver Plantilla");
-        System.out.println("2. Ver once");
-        System.out.println("3. Alinear jugadores");
-        System.out.println("4. Volver al Menu Principal");
-        System.out.println();
+		
         
         boolean salir=false;
         Scanner s = new Scanner(System.in);
-        while(!salir) {        	
+        while(!salir) {    
+        	System.out.println();
+        	System.out.println("------ SECCION Equipo ------");
+            System.out.println("1. Ver Plantilla");
+            System.out.println("2. Ver once");
+            System.out.println("3. Alinear jugadores");
+            System.out.println("4. Volver al Menu Principal");
+            System.out.println("-----------------------------");
+            System.out.println();
+            
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
@@ -125,6 +129,7 @@ public class ClienteFantasy {
 
 	                    Equipo e = (Equipo)ois.readObject();
 	                    e.mostrarAlineacion();
+	                    
 	            	}catch(IOException e) {
 	                    e.printStackTrace();
 	                }catch (ClassNotFoundException e1) {
@@ -133,6 +138,30 @@ public class ClienteFantasy {
 	            	
 	            	break;
 	            case 3:
+	            	try {
+	            		String m = "Alinear jugador";
+		            	oos.writeObject(m);
+		            	oos.flush();
+	                    
+		            	System.out.println("Elige el id del jugador que quieres cambiar");
+		            	int jSale = s.nextInt();
+		            	System.out.println("Elige el id del jugador que quieres añadir a tu once");
+		            	int jEntra = s.nextInt();
+		            	
+		            	oos.writeObject(jSale);
+		            	oos.writeObject(jEntra);
+		            	oos.flush();
+		            	
+		            	String respuesta = (String) ois.readObject();
+		            	System.out.println(respuesta);
+		            	
+	            	}catch(IOException e) {
+	            		e.printStackTrace();
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
 	            	break;
 	            case 4:
 	            	salir = true;
@@ -161,6 +190,7 @@ public class ClienteFantasy {
 				try {
 					String m = "Ver clasificacion";
 					oos.writeObject(m);
+					oos.flush();
 					
 					Liga l = (Liga) ois.readObject();
 					l.verClasificacion();
@@ -182,6 +212,8 @@ public class ClienteFantasy {
 	            default:
 	            	System.out.println("Numero Incorrecto");
             }
+            
+            
         }
 	}
 	

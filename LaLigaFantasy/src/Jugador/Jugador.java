@@ -39,6 +39,9 @@ public class Jugador implements Serializable{
 	public int getPuntos() {
 		return this.puntos;
 	}
+	public int getId() {
+		return this.id;
+	}
 	
 	public void aniadirPuntos(int p) {
 		this.puntos+=p;
@@ -59,7 +62,7 @@ public class Jugador implements Serializable{
 
 	public String toString() {
 		String jugador = "Nombre: " + this.nombre + " Equipo: " + this.equipo + " Posicion: " + this.posicion + " valor: " + this.valor
-				+ " puntos " + this.puntos;
+				+ " puntos " + this.puntos + " ID: " + this.id;
 		return jugador;
 	}
 	

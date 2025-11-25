@@ -69,6 +69,55 @@ public class Equipo implements Serializable{
 		return this.alineacion;
 	}
 	
+	public boolean existeJugador(int id) {
+		for(Jugador j : this.plantilla) {
+			if(j.getId()==id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Jugador jugadorEquipo(int id) {
+		Jugador jug = null;
+		for(Jugador j:this.plantilla) {
+			if(j.getId()==id) {
+				jug = j;
+			}
+		}
+		return jug;
+	}
+	
+	public String sustituirJugador(int sale,int entra) {
+		
+		Jugador jEntra = null;
+		Jugador jSale = null;
+		String resultado="Los jugadores se han sustituido correctamente";
+		
+		if(existeJugador(sale) && existeJugador(entra)) {
+			jEntra = jugadorEquipo(entra);
+			jSale = jugadorEquipo(sale);
+			
+			if(!this.alineacion.eliminarJugador(jSale)) {
+				resultado = "El jugador que quieres cambiar no está alineado";
+			}else {
+				resultado = this.alineacion.aniadirJugador(jEntra);
+				
+				//Si falla el añadirJugador añadimos el anterior para que no se quede incompleta la alineacion
+				
+				if(!resultado.contains("correctamente")) {
+					this.alineacion.aniadirJugador(jSale);
+				}
+			}
+			
+		}else {
+			resultado = "Alguno de los jugadores no esta en tu plantilla";
+		}
+		
+		return resultado;
+	}
+	
+	
 	public void mostrarPlantilla() {
 		System.out.println("Plantilla de " +this.nombre + " :");
 		for(Jugador j : this.plantilla) {
@@ -78,9 +127,7 @@ public class Equipo implements Serializable{
 	
 	public void mostrarAlineacion() {
 		System.out.println("Once inicial de " +this.nombre + " :");
-		for(Jugador j : this.alineacion.getJugadoresDeCampo()) {
-			System.out.println(j);
-		}
+		this.alineacion.mostrarAlineacion();
 	}
 	
 	@Override

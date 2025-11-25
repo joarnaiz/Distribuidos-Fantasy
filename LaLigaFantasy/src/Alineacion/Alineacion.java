@@ -16,31 +16,26 @@ public class Alineacion implements Serializable{
 		this.jugadoresDeCampo = new ArrayList<>();
 	}
 	
-	public boolean aniadirJugador(Jugador j) {
+	public String aniadirJugador(Jugador j) {
 		if (alineado(j)) {
-			System.out.println("Jugador ya alineado");
-			return false;
+			return "Jugador ya alineado";
 		}
 		
 		if (j.esPortero()) {
 			if (this.portero == null) {
 				this.portero = j;
-				//System.out.println("Portero " + j.getNombre() + " añadido correctamente");
-				return true;
+				return "Portero " + j.getNombre() + " añadido correctamente";
 			} else {
-				//System.out.println("Ya hay un portero en la alineación");
-				return false;
+				return "Ya hay un portero en la alineación";
 			}
 		}
 		
 		else {
 			if (this.jugadoresDeCampo.size() < MAX_JUG) {
 				this.jugadoresDeCampo.add(j);
-				System.out.println("Jugador de campo " + j.getNombre() + " añadido correctamente");
-				return true;
+				return "Jugador de campo " + j.getNombre() + " añadido correctamente";
 			} else {
-				System.out.println("No hay hueco para más jugadores de campo");
-				return false;
+				return "No hay hueco para más jugadores de campo";
 			}
 		}	
 	}
@@ -61,26 +56,28 @@ public class Alineacion implements Serializable{
 		return false;
 	}
 	
-	public void mostrarAlineacion() {
-		System.out.println("--- ALINEACIÓN ---");
-		
-		System.out.println("Portero:");
-		if (this.portero == null) {
-			System.out.println("Estás sin portero");
-		} else {
-			System.out.println("  " + this.portero);
-		}
-		
-		System.out.println("Jugadores de campo:");
-		if (this.jugadoresDeCampo.isEmpty()) {
-			System.out.println("No tienes jugadores de campo alineados");
-		} else {
-			for (Jugador j : this.jugadoresDeCampo) {
-				System.out.println("    " + j);
+		public void mostrarAlineacion() {
+			System.out.println("--- ALINEACIÓN ---");
+			
+			System.out.println("Portero:");
+			if (this.portero == null) {
+				System.out.println("Estás sin portero");
+			} else {
+				System.out.println("  " + this.portero);
+			}
+			
+			System.out.println("Jugadores de campo:");
+			if (this.jugadoresDeCampo.isEmpty()) {
+				System.out.println("No tienes jugadores de campo alineados");
+			} else {
+				for (Jugador j : this.jugadoresDeCampo) {
+					System.out.println("    " + j);
+				}
 			}
 		}
-	}
 	
+	/* Lo he hecho en equipo para comprobar que ambos estan en el equipo
+	 * 
 	public boolean cambiarJugador(Jugador fuera, Jugador dentro) {
 		if (!alineado(fuera)) {
 			System.out.println("El jugador que quieres sacar no está en la alineación");
@@ -106,7 +103,7 @@ public class Alineacion implements Serializable{
 		System.out.println("El jugador " + fuera.getNombre() + " ha sido sustituido por " + dentro.getNombre());
 		return true;
 	}
-	
+	*/
 	public void limpiarAlineacion() {
 	    this.portero = null;
 	    this.jugadoresDeCampo.clear();

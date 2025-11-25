@@ -106,10 +106,14 @@ class Usuarios implements Runnable{
     			this.equipo.getAlineacion().aniadirJugador(j);
     		}
 	        
+	        Jugador j = new Jugador("Jose","PORTERO","Barcelona",20000000);
+	        this.equipo.aniadirJugador(j);
+	        
 	        boolean salir = false;
 	        while(!salir) {
 	        	String opcion = (String)ois.readObject();        
 		        switch(opcion) {
+		        //---------EQUIPO-----------
 		        	case "Ver plantilla":
 		        		oos.writeObject(this.equipo);
 		        		oos.reset();
@@ -120,10 +124,15 @@ class Usuarios implements Runnable{
 		        		oos.reset();
 			        	oos.flush();
 			        	break;
-			        
+		        	case "Alinear jugador":
+		        		int idSale = (Integer)ois.readObject();
+		        		int idEntra = (Integer)ois.readObject();
+			        	String resultado=this.equipo.sustituirJugador(idSale, idEntra);
 			        	
-			        //LIGA
-			        	
+			        	oos.writeObject(resultado);
+			        	oos.flush();
+		        		break;
+			        //----------LIGA---------- 	
 		        	case "Ver clasificacion":
 		        		oos.writeObject(this.liga);
 		        		oos.reset();
