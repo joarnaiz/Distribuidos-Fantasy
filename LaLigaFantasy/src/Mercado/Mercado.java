@@ -1,29 +1,35 @@
 package Mercado;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import Jugador.Jugador;
 
 public class Mercado {
 
 	private List<Jugador> jugadoresDisponibles;
-	private List<Jugador> poolJugadores;
+	private List<Jugador> jugadoresTotales;
 	private static final int JUGADORES_MERCADO = 20;
 	private final Random random = new Random();
 	
 	public Mercado(List<Jugador> poolJugadores) {
-		this.poolJugadores = new ArrayList<>(poolJugadores);
+		this.jugadoresTotales = new ArrayList<>(poolJugadores);
 		this.jugadoresDisponibles = new ArrayList<Jugador>();
 		actualizarMercado();
 	}
 	
-	public void actualizarJugadoresDisponibles() {
-		
-	}
-	
 	public void actualizarMercado() {
+		this.jugadoresDisponibles.clear();
 		
+		List<Jugador> copia = new ArrayList<>(this.jugadoresTotales);
+		Collections.shuffle(copia, random);
 		
+		int limite = Math.min(copia.size(), JUGADORES_MERCADO); // Por si hay menos de 20 futbolistas disponibles
+		for (int i = 0; i < limite; i++) {
+			this.jugadoresDisponibles.add(copia.get(i));
+		}
 	}
 	
 	public void mostrarMercado() {
@@ -32,14 +38,13 @@ public class Mercado {
             System.out.println("No hay jugadores en el mercado actualmente.");
             return;
         }
-		 List<Jugador> copia = new ArrayList<>(jugadoresDisponibles);
-	     Collections.shuffle(copia, random);
-	     
-
-		for (int i = 0; i < JUGADORES_MERCADO; i++) {
-		    Jugador j = copia.get(i);
-		    System.out.println(j);
-		}
+		 for (int i = 0; i < jugadoresDisponibles.size(); i++) {
+			 System.out.println(jugadoresDisponibles.get(i));
+		 }	
+	}
+	
+	public Jugador ficharJugador(String id) {
+		return null;
 	}
 	
 }
