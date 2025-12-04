@@ -106,8 +106,6 @@ class Usuarios implements Runnable{
     			this.equipo.getAlineacion().aniadirJugador(j);
     		}
 	        
-	        Jugador j = new Jugador("Jose","PORTERO","Barcelona",20000000);
-	        this.equipo.aniadirJugador(j);
 	        
 	        boolean salir = false;
 	        while(!salir) {
