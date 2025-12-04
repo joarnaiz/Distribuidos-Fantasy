@@ -95,14 +95,14 @@ public class ObtenerJugadores {
 		ArrayList<String> paises = obtenerEquipos();
 		
 		try {
-			List<Future<List<Jugador>>> listaResultados = new ArrayList<>();
+			ArrayList<Future<ArrayList<Jugador>>> listaResultados = new ArrayList<>();
 			
 			for(String s : paises) {
 				JugadorPorPais jpp = new JugadorPorPais(s);
 				listaResultados.add(pool.submit(jpp));
 			}
 			
-			for(Future<List<Jugador>> f : listaResultados) {
+			for(Future<ArrayList<Jugador>> f : listaResultados) {
 				ArrayList<Jugador> jugadorPorSeleccion = f.get();
 				listaJugadores.addAll(jugadorPorSeleccion);
 			}
@@ -121,7 +121,7 @@ public class ObtenerJugadores {
 
 }
 
-class JugadorPorPais implements Callable<List<Jugador>>{
+class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 	
 	private String pais;
 	
@@ -129,8 +129,8 @@ class JugadorPorPais implements Callable<List<Jugador>>{
 		this.pais=p;
 	}
 	@Override
-	public List<Jugador> call() throws Exception {
-		List<Jugador> lista = new ArrayList<>();
+	public ArrayList<Jugador> call() throws Exception {
+		ArrayList<Jugador> lista = new ArrayList<>();
 		
 		lista.addAll(descargarPorPosicion("G",Posicion.PORTERO));
 		lista.addAll(descargarPorPosicion("D",Posicion.DECAMPO));
