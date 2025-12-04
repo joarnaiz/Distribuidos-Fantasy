@@ -89,12 +89,12 @@ public class Mercado {
 			for (Puja p : listaPujas) {
 				if (p.getJugadorPuja().equals(j)) {
 					pujasJugador.add(p);
+					if(p.getCantidadPuja() > cantidadPujaMaxima) {
+						cantidadPujaMaxima = p.getCantidadPuja();
+						mejorPuja = p;
+					}
 				}
 				
-				if(p.getCantidadPuja() > cantidadPujaMaxima) {
-					cantidadPujaMaxima = p.getCantidadPuja();
-					mejorPuja = p;
-				}
 			}
 			
 			if (mejorPuja != null) {
