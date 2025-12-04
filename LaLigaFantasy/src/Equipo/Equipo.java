@@ -16,12 +16,12 @@ public class Equipo implements Serializable{
 	private Alineacion alineacion;
 	private static final int MAX_JUGADORES_PlANTILLA = 22;
 	private static final int TITULARES = 11;
-	public double Saldo;
+	public double saldo;
 	
 	public Equipo(String nom) {
 		this.nombre = nom;
 		this.plantilla = new ArrayList<>();
-        this.Saldo=100000000;
+        this.saldo = 100000000; // 100 millones
         this.alineacion = new Alineacion();
 	}
 	public String getNombre() {
@@ -33,10 +33,10 @@ public class Equipo implements Serializable{
 	}
 	
 	public double getSaldo() {
-		return this.Saldo;
+		return this.saldo;
 	}
 	public void setSaldo(double d) {
-		this.Saldo = d;
+		this.saldo += d;
 	}
 	
 	public boolean equipoCompleto() {

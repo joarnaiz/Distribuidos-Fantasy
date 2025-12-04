@@ -23,6 +23,7 @@ public class Liga implements Serializable{
 	public ArrayList<Jugador> getJugadoresDisponibles(){
 		return this.jugadoresDisponibles;
 	}
+	
 	public void setJugadoresDisponibles(ArrayList<Jugador> libres) {
 		this.jugadoresDisponibles=libres;
 	}

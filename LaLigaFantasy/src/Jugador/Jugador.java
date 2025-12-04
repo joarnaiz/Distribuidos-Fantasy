@@ -38,6 +38,10 @@ public class Jugador implements Serializable{
 		return this.id;
 	}
 	
+	public double getValor() {
+		return this.valor;
+	}
+	
 	public void aniadirPuntos(int p) {
 		this.puntos+=p;
 	}
