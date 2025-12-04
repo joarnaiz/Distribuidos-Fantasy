@@ -1,6 +1,7 @@
 package Servidor;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,24 +11,26 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-
 import Equipo.Equipo;
-import GeneradorJugadores.Generador;
 import Jugador.Jugador;
 import Liga.Liga;
+import ObtenerJugadores.ObtenerJugadores;
 
 public class Servidor {
 	
 	private static Liga liga= new Liga("Distribuidos-Fantasy");
+	private static ArrayList<Jugador> todosJugadores=new ArrayList<>();
 	
 	public static void main(String[] args) {
 		ExecutorService usuarios = Executors.newFixedThreadPool(20);
 		
-		Generador g = new Generador();
-		liga.setJugadoresDisponibles(g.generar(100));
+		ObtenerJugadores oj = new ObtenerJugadores();
+		todosJugadores = oj.getListaJugadores();
+		liga.setJugadoresDisponibles(todosJugadores);
 		
 		Semaphore semaforoAdquirirJugaores = new Semaphore(1);
 		
@@ -75,32 +78,36 @@ class Usuarios implements Runnable{
 			
 			this.liga.aniadirEquipo(this.equipo);
 			
-			this.semaforo.acquire();
-			
-			Collections.shuffle(this.liga.getJugadoresDisponibles());
-			
-			Iterator<Jugador> it = this.liga.getJugadoresDisponibles().iterator();
-	        while (it.hasNext()) {
-	            Jugador j = it.next();
-	            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
-	                this.equipo.aniadirJugador(j);
-	                it.remove(); 
-	                break;
-	            }
-	        }
-	        
-	        int contador = 0;
-	        it = this.liga.getJugadoresDisponibles().iterator(); 
-	        while (it.hasNext() && contador < 10) {
-	            Jugador j = it.next();
-	            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
-	                this.equipo.aniadirJugador(j);
-	                it.remove();
-	                contador++;
-	            }
-	        }
-	        
-	        this.semaforo.release();
+			try {
+				this.semaforo.acquire();
+				
+				Collections.shuffle(this.liga.getJugadoresDisponibles());
+				
+				Iterator<Jugador> it = this.liga.getJugadoresDisponibles().iterator();
+		        while (it.hasNext()) {
+		            Jugador j = it.next();
+		            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
+		                this.equipo.aniadirJugador(j);
+		                it.remove(); 
+		                break;
+		            }
+		        }
+		        
+		        int contador = 0;
+		        it = this.liga.getJugadoresDisponibles().iterator(); 
+		        while (it.hasNext() && contador < 10) {
+		            Jugador j = it.next();
+		            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
+		                this.equipo.aniadirJugador(j);
+		                it.remove();
+		                contador++;
+		            }
+		        }
+		        
+		        
+			}finally {
+				this.semaforo.release();
+			}
 	        
 	        for(Jugador j : this.equipo.getJugadores()) {
     			this.equipo.getAlineacion().aniadirJugador(j);
