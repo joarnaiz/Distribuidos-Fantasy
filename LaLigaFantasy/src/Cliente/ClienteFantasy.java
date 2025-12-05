@@ -26,7 +26,7 @@ public class ClienteFantasy {
 			
 			
 			
-			System.out.println("Escribe el nombre de tu Equipo Fantasy");
+			System.out.println("¡Bienvenido! Escribe el nombre de tu Equipo Fantasy");
 			Scanner nE = new Scanner(System.in);
 			String nombre = nE.nextLine();
 			
@@ -99,7 +99,8 @@ public class ClienteFantasy {
             System.out.println("2. Ver once");
             System.out.println("3. Alinear jugadores");
             System.out.println("4. Sustituir jugadores");
-            System.out.println("5. Volver al Menu Principal");
+            System.out.println("5. Economía del club");
+            System.out.println("6. Volver al Menu Principal");
             System.out.println("-----------------------------");
             System.out.println();
             
@@ -112,7 +113,7 @@ public class ClienteFantasy {
 	                    oos.writeObject(m);
 	                    oos.flush();
 
-	                    Equipo e = (Equipo)ois.readObject();
+	                    Equipo e = (Equipo) ois.readObject();
 	                    e.mostrarPlantilla();
 	            	}catch(IOException e) {
 	                    e.printStackTrace();
@@ -188,6 +189,19 @@ public class ClienteFantasy {
 					}
 	            	break;
 	            case 5:
+	            	try {
+	            		String m = "Eco club";
+		            	oos.writeObject(m);
+		            	oos.flush();
+		            	
+		            	String respuesta = ois.readUTF();
+		            	System.out.println(respuesta);
+	            	} catch(IOException e) {
+	            		e.printStackTrace();
+	            	}
+	            	
+	            	break;
+	            case 6:
 	            	salir = true;
 	            	break;
 	            default:
@@ -210,7 +224,6 @@ public class ClienteFantasy {
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
-	            	
 				try {
 					String m = "Ver clasificacion";
 					oos.writeObject(m);
@@ -229,6 +242,28 @@ public class ClienteFantasy {
 	            case 2:
 	            	break;
 	            case 3:
+	            	try {
+						String m = "Ver clasificacion";
+						oos.writeObject(m);
+						oos.flush();
+						
+						Liga l = (Liga) ois.readObject();
+						l.verClasificacion();
+						System.out.println("Elige un equipo para ojear");
+						int equipoOjear = s.nextInt();
+						
+						if (equipoOjear > 0 && equipoOjear <= l.getClasificacion().size()) {
+							Equipo equipoOjeado = l.getClasificacion().get(equipoOjear-1);
+							equipoOjeado.mostrarPlantilla();
+						} else {
+							System.out.println("Número no válido");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	break;
 	            case 4:
 	            	salir = true;
@@ -262,9 +297,12 @@ public class ClienteFantasy {
 						
 						Mercado mercado = (Mercado) ois.readObject();
 						mercado.mostrarMercado();
-	            	} catch(IOException | ClassNotFoundException e) {
-	            		e.printStackTrace();
-	            	}	
+	            	} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	
 	            	break;
 	            case 2:

@@ -67,6 +67,10 @@ public class Liga implements Serializable{
 		}
 	}
 	
+	public ArrayList<Equipo> getClasificacion(){
+		return this.clasificacion;
+	}
+	
 	public Mercado getMercado() {
 		return this.mercado;
 	}

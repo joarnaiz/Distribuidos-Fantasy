@@ -116,7 +116,7 @@ class Usuarios implements Runnable{
 	        
 	        boolean salir = false;
 	        while(!salir) {
-	        	String opcion = (String)ois.readObject();        
+	        	String opcion = (String) ois.readObject();        
 		        switch(opcion) {
 		        
 		        	//---------EQUIPO-----------
@@ -136,7 +136,6 @@ class Usuarios implements Runnable{
 		        		
 		        		oos.writeObject(aniadido);
 			        	oos.flush();
-		        		
 		        		break;
 		        	case "Sustituir jugador":
 		        		int idSale = (Integer)ois.readObject();
@@ -145,6 +144,17 @@ class Usuarios implements Runnable{
 			        	
 			        	oos.writeObject(resultado);
 			        	oos.flush();
+		        		break;
+		        	case "Eco club":
+		        		double valorEq = 0.0;
+		        		for (Jugador j : this.equipo.getJugadores()) {
+		        			valorEq += j.getValor();
+		        		}
+		        		String saldoEquipo = String.format("Tu saldo es %.2f €", this.equipo.getSaldo());
+		        		String valorEquipo = String.format("y tu equipo tiene un valor de %.2f €", valorEq);
+		        		String eco = saldoEquipo + " " + valorEquipo;
+		        		oos.writeUTF(eco);
+		        		oos.flush();
 		        		break;
 		        		
 		        		
