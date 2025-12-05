@@ -1,6 +1,7 @@
 package Jugador;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Jugador implements Serializable{
 
@@ -11,6 +12,7 @@ public class Jugador implements Serializable{
 	private Posicion posicion;
 	private double valor;
 	private int puntos;
+	private HashMap<Integer,Integer> puntosJornada;
 	
 	public Jugador(String nomb, Posicion pos, String eq, double val) {
 		
@@ -19,7 +21,8 @@ public class Jugador implements Serializable{
 		this.equipo = eq;
 		this.valor = val;
 		this.puntos = 0;
-		this.posicion = pos; // Si le pasamos directamente un objeto de tipo posicion no hace falta convertirlo
+		this.posicion = pos;
+		this.puntosJornada = new HashMap<Integer,Integer>();
 	}
 	
 	public String getNombre() {
@@ -46,12 +49,19 @@ public class Jugador implements Serializable{
 		return this.valor;
 	}
 	
-	public void aniadirPuntos(int p) {
-		this.puntos+=p;
+	public void setPuntosJornada(int jornada,int puntos) {
+		this.puntosJornada.put(jornada, puntos);
+		this.puntos+=puntos;
+	}
+	public int getPuntosJornada(int jornada) {
+		return this.puntosJornada.get(jornada);
 	}
 	
 	public void aniadirValor(double valor) {
 		this.valor+=valor;
+		if(this.valor<500000.0) {
+			this.valor=500000.0;
+		}
 	}
 	
 	@Override

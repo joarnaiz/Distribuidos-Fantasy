@@ -26,7 +26,7 @@ public class Liga implements Serializable{
 		this.clasificacion = new ArrayList<Equipo>();
 		this.jugadoresLibres = new ArrayList<Jugador>();
 		this.clasificacionJornada = new ArrayList<Equipo>();
-		this.jornadas = new HashMap<Integer,ArrayList<Equipo>>;
+		this.jornadas = new HashMap<Integer,ArrayList<Equipo>>();
 	}
 	
 	public ArrayList<Jugador> getJugadoresLibres(){

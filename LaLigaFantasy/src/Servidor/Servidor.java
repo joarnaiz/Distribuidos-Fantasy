@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +48,7 @@ public class Servidor {
 					//Hilo que controla la actualizacion del mercado.
 					Timer t = new Timer();
 					t.scheduleAtFixedRate(new ActualizaMercado(liga.getMercado()) ,0,10*60*1000);
-					t.scheduleAtFixedRate(new Jornada(todosJugadores,liga,t) ,10*60*1000,20*60*1000);
+					t.scheduleAtFixedRate(new Jornada(todosJugadores,liga,t),10000,20000);
 					
 					
 					
@@ -215,6 +216,12 @@ class Usuarios implements Runnable{
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				this.cliente.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -229,10 +236,11 @@ class ActualizaMercado extends TimerTask{
 		this.mercado=m;
 	}
 	@Override
-	public void run() {
-		this.mercado.comprobarPujas();
-		this.mercado.actualizarMercado();
-		
+	public void run() { //Para que otros hilos no puedan hacer operaciones de mercado mientras este cambia
+		synchronized(this.mercado) {
+			this.mercado.comprobarPujas();
+			this.mercado.actualizarMercado();
+		}		
 	}
 	
 }
@@ -253,9 +261,34 @@ class Jornada extends TimerTask{
 	}
 	
 	public void run() {
-		//Actualizamos tanto el precio como los puntos de los jugadores.
-		//Actualizamos las clasificaciones totales y de la jornada.
+		Random r = new Random();
 		
+		if(this.jornadaActual>NUMERO_JORNADAS) {
+			this.timer.cancel();
+			return;
+		}
+		
+		synchronized(this.liga) { //Para que mientras se actualizan las clasificaciones y asi no ver otras versiones	
+			for(Jugador j : Jugadores) {
+				int n = r.nextInt(-5, 15);
+				j.setPuntosJornada(jornadaActual,n);
+				j.aniadirValor(n*100000.0);
+			}
+			
+			for(Equipo e : this.liga.getClasificacion()) {
+				int puntosE=0;
+				for(Jugador j : e.getAlineacion().getJugadoresDeCampo()) {
+					puntosE+=j.getPuntosJornada(jornadaActual);
+				}
+				e.setPuntosJornada(jornadaActual,puntosE);
+				System.out.println(e.getPuntos());
+			}
+			
+			this.liga.actualizarClasificacion();
+			this.liga.actualizarClasificacionJornada(jornadaActual);
+		}
+		System.out.println("Se ha actualizado");
+		this.jornadaActual++;
 	}
 	
 }

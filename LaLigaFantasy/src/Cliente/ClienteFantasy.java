@@ -247,15 +247,23 @@ public class ClienteFantasy {
 	            	
 	            	break;
 	            case 2:
-	            	String m = "Ver clasificacion";
-					oos.writeObject(m);
-					oos.flush();
-					System.out.println("Que jornada quieres ver");
-					int jornada = s.nextInt();
-					s.nextLine();
-					
-					Liga l = (Liga) ois.readObject();
-					l.verClasificacionJornada(jornada);
+	            	try {
+	            		String m = "Ver clasificacion";
+						oos.writeObject(m);
+						oos.flush();
+						System.out.println("Que jornada quieres ver");
+						int jornada = s.nextInt();
+						s.nextLine();
+						
+						Liga l = (Liga) ois.readObject();
+						l.verClasificacionJornada(jornada);
+	            	}catch(IOException e) {
+	            		e.printStackTrace();
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
 					
 	            	break;
 	            case 3:
