@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import Alineacion.Alineacion;
 import Jugador.Jugador;
+import Mercado.Oferta;
 
 public class Equipo implements Serializable{
 	
@@ -19,6 +20,7 @@ public class Equipo implements Serializable{
 	private static final int MAX_JUGADORES_PlANTILLA = 22;
 	private static final int TITULARES = 11;
 	public double saldo;
+	private ArrayList<Oferta> ofertas;
 	
 	public Equipo(String nom) {
 		this.nombre = nom;
@@ -27,6 +29,7 @@ public class Equipo implements Serializable{
         this.alineacion = new Alineacion();
         this.puntosJornada = new HashMap<Integer,Integer>();
         this.puntosTotales=0;
+        this.ofertas = new ArrayList<>();
 	}
 	
 	public String getNombre() {
@@ -141,6 +144,18 @@ public class Equipo implements Serializable{
 		for(Jugador j : this.plantilla) {
 			System.out.println(j);
 		}
+	}
+	
+	public void recibirOferta(Oferta oferta) {
+		this.ofertas.add(oferta);
+	}
+	
+	public ArrayList<Oferta> getOfertas(){
+		return this.ofertas;
+	}
+	
+	public void eliminarOferta(Oferta oferta) {
+		this.ofertas.remove(oferta);
 	}
 	
 	public void mostrarAlineacion() {

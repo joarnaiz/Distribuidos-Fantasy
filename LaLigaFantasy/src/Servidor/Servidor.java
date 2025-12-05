@@ -211,8 +211,8 @@ class Usuarios implements Runnable{
 		        	
 		        	case "Vender jugador":
 		        		try {
-		        			int idJugador = (Integer) ois.readObject();
-		        			String venta = this.liga.getMercado().venderJugador(idVenta, this.equipo);
+		        			int idJugadorVenta = (Integer) ois.readObject();
+		        			String venta = this.liga.getMercado().venderJugador(idJugadorVenta, this.equipo);
 		        			
 		        			oos.writeObject(venta);
 		        			oos.flush();
@@ -224,9 +224,7 @@ class Usuarios implements Runnable{
 		        }
 	        }
 	        
-	        
-			
-			
+
 		}catch(IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
