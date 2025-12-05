@@ -1,6 +1,7 @@
 package Mercado;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,16 +18,20 @@ public class Mercado implements Serializable{
 	private static final int JUGADORES_MERCADO = 20;
 	private final Random random = new Random();
 	private List<Puja> listaPujas;
+	private long ultimaActualizacionMercado;
+	private final long INTERVALO_ACTUALIZACION=10*60*1000;
 	
 	public Mercado(List<Jugador> poolJugadores) {
 		this.jugadoresLibres = new ArrayList<>(poolJugadores);
 		this.jugadoresDisponibles = new ArrayList<Jugador>();
 		this.listaPujas = new ArrayList<>();
+		this.ultimaActualizacionMercado=System.currentTimeMillis();
 		actualizarMercado();
 	}
 	
 	public void actualizarMercado() {
 		this.jugadoresDisponibles.clear();
+		this.ultimaActualizacionMercado=System.currentTimeMillis();
 		
 		List<Jugador> copia = new ArrayList<>(this.jugadoresLibres);
 		Collections.shuffle(copia, random);
@@ -37,17 +42,26 @@ public class Mercado implements Serializable{
 		}
 	}
 	
-	public void mostrarMercado() {
+	public synchronized void mostrarMercado() {
+		
+		
 		System.out.println("--- MERCADO ---");
 		if (jugadoresDisponibles.isEmpty()) {
             System.out.println("No hay jugadores en el mercado actualmente.");
             return;
         }
-		 for (int i = 1; i <= jugadoresDisponibles.size(); i++) {
-			 Jugador j = jugadoresDisponibles.get(i-1);
-			 
-			 System.out.println(i + ". " + j.toString());
-		 }	
+		for (int i = 1; i <= jugadoresDisponibles.size(); i++) {
+			Jugador j = jugadoresDisponibles.get(i-1);	 
+			System.out.println(i + ". " + j.toString());
+		}	
+		 
+		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+		long tiempoEnMercado = System.currentTimeMillis()-this.ultimaActualizacionMercado;
+		long tiempoRestante = this.INTERVALO_ACTUALIZACION-tiempoEnMercado;
+		String crono = sdf.format(tiempoRestante);
+		 
+		System.out.println();
+		System.out.println("Tiempo antes de que actualice: " + crono);
 	}
 	
 	public String pujarJugador(int opcion, Equipo equipo, double tuPuja) {

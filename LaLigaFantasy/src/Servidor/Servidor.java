@@ -12,12 +12,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import Equipo.Equipo;
 import Jugador.Jugador;
 import Liga.Liga;
+import Mercado.Mercado;
 import ObtenerJugadores.ObtenerJugadores;
 
 public class Servidor {
@@ -41,6 +44,12 @@ public class Servidor {
 					
 					Usuarios u = new Usuarios(cliente, liga,semaforoAdquirirJugaores);
 					usuarios.execute(u);
+					//Hilo que controla la actualizacion del mercado.
+					Timer t = new Timer();
+					t.scheduleAtFixedRate(new ActualizaMercado(liga.getMercado()) ,0,10*60*1000);
+					t.scheduleAtFixedRate(new Jornada(todosJugadores,liga,t) ,10*60*1000,20*60*1000);
+					
+					
 					
 					
 				}catch(IOException e) {
@@ -73,7 +82,7 @@ class Usuarios implements Runnable{
 				ObjectOutputStream oos = new ObjectOutputStream(out);
 				ObjectInputStream ois  = new ObjectInputStream(in);){
 			
-			String nombreEquipo = (String)ois.readObject();
+			String nombreEquipo = ois.readObject().toString();
 			this.equipo = new Equipo(nombreEquipo);
 			
 			this.liga.aniadirEquipo(this.equipo);
@@ -116,7 +125,7 @@ class Usuarios implements Runnable{
 	        
 	        boolean salir = false;
 	        while(!salir) {
-	        	String opcion = (String) ois.readObject();        
+	        	String opcion = ois.readObject().toString();        
 		        switch(opcion) {
 		        
 		        	//---------EQUIPO-----------
@@ -153,7 +162,7 @@ class Usuarios implements Runnable{
 		        		String saldoEquipo = String.format("Tu saldo es %.2f €", this.equipo.getSaldo());
 		        		String valorEquipo = String.format("y tu equipo tiene un valor de %.2f €", valorEq);
 		        		String eco = saldoEquipo + " " + valorEquipo;
-		        		oos.writeUTF(eco);
+		        		oos.writeObject(ois);
 		        		oos.flush();
 		        		break;
 		        		
@@ -165,6 +174,14 @@ class Usuarios implements Runnable{
 		        		oos.flush();
 		        		break;	
 		        	
+		        	case "Ojear Equipo":
+		        		
+		        		String nombreEq = ois.readObject().toString();
+		        		Equipo equipo = this.liga.getEquipoPorNombre(nombreEq);
+		        		oos.writeObject(equipo);
+		        		oos.reset();
+		        		oos.flush();
+		        		break;
 		        		
 		        	//----------MERCADO----------
 		        	case "Ver jugadores en Venta":
@@ -178,7 +195,7 @@ class Usuarios implements Runnable{
 		        			double cantidad = ois.readDouble();
 		        			
 		        			String respuesta = this.liga.getMercado().pujarJugador(numJugador, this.equipo, cantidad);
-		        			oos.writeUTF(respuesta);
+		        			oos.writeObject(respuesta);
 		        			oos.flush();
 		        		}catch (IOException e) {
 		        			e.printStackTrace();
@@ -199,6 +216,45 @@ class Usuarios implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	
+}
+
+class ActualizaMercado extends TimerTask{
+
+	private Mercado mercado;
+	
+	public ActualizaMercado(Mercado m) {
+		this.mercado=m;
+	}
+	@Override
+	public void run() {
+		this.mercado.comprobarPujas();
+		this.mercado.actualizarMercado();
+		
+	}
+	
+}
+
+class Jornada extends TimerTask{
+	
+	private ArrayList<Jugador> Jugadores;
+	private Liga liga;
+	private Timer timer;
+	private final int NUMERO_JORNADAS = 32;
+	private int jornadaActual;
+	
+	public Jornada(ArrayList<Jugador> j,Liga l ,Timer t) {
+		this.Jugadores=j;
+		this.liga=l;
+		this.timer=t;
+		this.jornadaActual=1;
+	}
+	
+	public void run() {
+		//Actualizamos tanto el precio como los puntos de los jugadores.
+		//Actualizamos las clasificaciones totales y de la jornada.
 		
 	}
 	

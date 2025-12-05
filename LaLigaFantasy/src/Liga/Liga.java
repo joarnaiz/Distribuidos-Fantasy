@@ -3,6 +3,8 @@ package Liga;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import Equipo.Equipo;
 import Jugador.Jugador;
@@ -13,13 +15,18 @@ public class Liga implements Serializable{
 	private String nombre;
 	private static final int MAX_EQUIPOS = 20;
 	private ArrayList<Equipo> clasificacion;
+	private ArrayList<Equipo> clasificacionJornada;
+	private HashMap<Integer,ArrayList<Equipo>> jornadas;
 	private ArrayList<Jugador> jugadoresLibres;
 	private Mercado mercado;
+	
 	
 	public Liga(String nomb) {
 		this.nombre=nomb;
 		this.clasificacion = new ArrayList<Equipo>();
 		this.jugadoresLibres = new ArrayList<Jugador>();
+		this.clasificacionJornada = new ArrayList<Equipo>();
+		this.jornadas = new HashMap<Integer,ArrayList<Equipo>>;
 	}
 	
 	public ArrayList<Jugador> getJugadoresLibres(){
@@ -58,6 +65,11 @@ public class Liga implements Serializable{
 		this.clasificacion.sort(Comparator.comparingInt(Equipo::getPuntos).reversed());
 	}
 	
+	public void actualizarClasificacionJornada(int jornada) {
+		this.clasificacionJornada.sort(Comparator.comparingInt((Equipo e)-> e.getPuntosJornada(jornada)).reversed());
+		this.jornadas.put(jornada, this.clasificacionJornada);
+	}
+	
 	public void verClasificacion() {
 		System.out.println("Clasificacion de la liga " + this.nombre + " :");
 		int posicion = 1;
@@ -67,11 +79,37 @@ public class Liga implements Serializable{
 		}
 	}
 	
+	public void verClasificacionJornada(int jornada) {
+		if(jornada>0 && jornada<=this.jornadas.size()) {
+			System.out.println("Clasificacion de la liga " + this.nombre +" en la jornada " + jornada +" :");
+			int posicion = 1;
+			for(Equipo e : this.jornadas.get(jornada)) {
+				System.out.print(posicion + ". " + e);
+				posicion++;
+			}
+		}else {
+			System.out.println("No hay clasificacion para esa jornada");
+		}		
+	}
+	
 	public ArrayList<Equipo> getClasificacion(){
 		return this.clasificacion;
 	}
 	
+	public ArrayList<Equipo> getClasificacionJornada(){
+		return this.clasificacionJornada;
+	}
+	
 	public Mercado getMercado() {
 		return this.mercado;
+	}
+	
+	public Equipo getEquipoPorNombre(String nombre) {
+		for(Equipo eq: this.clasificacion) {
+			if(eq.getNombre().equalsIgnoreCase(nombre)) {
+				return eq;
+			}
+		}
+		return null;
 	}
 }

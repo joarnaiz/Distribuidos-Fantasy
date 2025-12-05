@@ -26,14 +26,14 @@ public class ClienteFantasy {
 			
 			
 			
-			System.out.println("¡Bienvenido! Escribe el nombre de tu Equipo Fantasy");
+			System.out.println("Bienvenido! Escribe el nombre de tu Equipo Fantasy");
 			Scanner nE = new Scanner(System.in);
 			String nombre = nE.nextLine();
 			
 			oos.writeObject(nombre);
 			oos.flush();
 			
-			//Mandamos al servidor el nombre del equipo, este lo guarda, nos asigna a un equipo, nos mete en la lida...
+			//Mandamos al servidor el nombre del equipo, este lo guarda, nos asigna a un equipo, nos mete en la liga...
 			//Y ya entramos al menu principal para gestionar nuestro equipo
 			
 			boolean salir=false;
@@ -44,6 +44,7 @@ public class ClienteFantasy {
 			while(!salir) {
 				menuPrincipal();
 				opcion = s.nextInt();
+				s.nextLine();
 				
 				switch(opcion) {
 					case 1:
@@ -56,6 +57,8 @@ public class ClienteFantasy {
 						menuMercado(ois,oos);
 						break;
 					case 4:
+						//Enviar al servidor que ha abandonado la liga para que borre todos sus datos.
+						salir=true;
 						break;
 					default:
 						System.out.println("Opción incorrecta");
@@ -87,9 +90,7 @@ public class ClienteFantasy {
 		System.out.println();
 	}
 	
-	private static void menuEquipo(ObjectInputStream ois,ObjectOutputStream oos) {
-		
-        
+	private static void menuEquipo(ObjectInputStream ois,ObjectOutputStream oos) {  
         boolean salir=false;
         Scanner s = new Scanner(System.in);
         while(!salir) {    
@@ -105,6 +106,7 @@ public class ClienteFantasy {
             System.out.println();
             
             int opcion = s.nextInt();
+            s.nextLine();
             switch(opcion) {
 	            case 1:
 	            	try {
@@ -152,7 +154,7 @@ public class ClienteFantasy {
 		            	oos.writeObject(jugador);
 		            	oos.flush();
 		            	
-		            	String respuesta = (String) ois.readObject();
+		            	String respuesta = ois.readObject().toString();
 		            	System.out.println(respuesta);
 		            	
 	            	}catch(IOException e) {
@@ -173,12 +175,13 @@ public class ClienteFantasy {
 		            	int jSale = s.nextInt();
 		            	System.out.println("Elige el id del jugador que quieres añadir a tu once");
 		            	int jEntra = s.nextInt();
+		            	s.nextLine();
 		            	
 		            	oos.writeObject(jSale);
 		            	oos.writeObject(jEntra);
 		            	oos.flush();
 		            	
-		            	String respuesta = (String) ois.readObject();
+		            	String respuesta = ois.readObject().toString();
 		            	System.out.println(respuesta);
 		            	
 	            	}catch(IOException e) {
@@ -194,11 +197,14 @@ public class ClienteFantasy {
 		            	oos.writeObject(m);
 		            	oos.flush();
 		            	
-		            	String respuesta = ois.readUTF();
+		            	String respuesta = ois.readObject().toString();
 		            	System.out.println(respuesta);
 	            	} catch(IOException e) {
 	            		e.printStackTrace();
-	            	}
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	
 	            	break;
 	            case 6:
@@ -210,18 +216,19 @@ public class ClienteFantasy {
         }        
 	}
 	
-	private static void menuLiga(ObjectInputStream ois,ObjectOutputStream oos) {
-		System.out.println("--- SECCION LIGA ---");
-        System.out.println("1. Ver Clasificacion General");
-        System.out.println("2. Ver Puntos Ultima Jornada");
-        System.out.println("3. Ojear Equipo");
-        System.out.println("4. Volver al Menu Principal");
-        System.out.println();
-        
+	private static void menuLiga(ObjectInputStream ois,ObjectOutputStream oos) {        
         boolean salir=false;
         Scanner s = new Scanner(System.in);
         while(!salir) { 	
+        	System.out.println();
+        	System.out.println("--- SECCION LIGA ---");
+            System.out.println("1. Ver Clasificacion General");
+            System.out.println("2. Ver Puntos de una  Jornada");
+            System.out.println("3. Ojear Equipo");
+            System.out.println("4. Volver al Menu Principal");
+            System.out.println();
             int opcion = s.nextInt();
+            s.nextLine();
             switch(opcion) {
 	            case 1:
 				try {
@@ -240,24 +247,35 @@ public class ClienteFantasy {
 	            	
 	            	break;
 	            case 2:
+	            	String m = "Ver clasificacion";
+					oos.writeObject(m);
+					oos.flush();
+					System.out.println("Que jornada quieres ver");
+					int jornada = s.nextInt();
+					s.nextLine();
+					
+					Liga l = (Liga) ois.readObject();
+					l.verClasificacionJornada(jornada);
+					
 	            	break;
 	            case 3:
 	            	try {
-						String m = "Ver clasificacion";
+						String m = "Ojear Equipo";
 						oos.writeObject(m);
 						oos.flush();
 						
-						Liga l = (Liga) ois.readObject();
-						l.verClasificacion();
-						System.out.println("Elige un equipo para ojear");
-						int equipoOjear = s.nextInt();
+						System.out.println("Elige un equipo para ojear (Escribe el nombre)");
+						String equipoOjear = s.nextLine();
+						oos.writeObject(equipoOjear);
+						oos.flush();
 						
-						if (equipoOjear > 0 && equipoOjear <= l.getClasificacion().size()) {
-							Equipo equipoOjeado = l.getClasificacion().get(equipoOjear-1);
-							equipoOjeado.mostrarPlantilla();
+						Equipo e = (Equipo) ois.readObject();
+						
+						if (e!=null) {		
+							e.mostrarPlantilla();
 						} else {
-							System.out.println("Número no válido");
-						}
+							System.out.println("Ese equipo no se encuentra en la liga");
+						}	
 					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (ClassNotFoundException e) {
@@ -276,18 +294,19 @@ public class ClienteFantasy {
         }
 	}
 	
-	private static void menuMercado(ObjectInputStream ois,ObjectOutputStream oos) {
-		System.out.println("--- SECCION MERCADO ---");
-        System.out.println("1. Ver Jugadores en Venta");
-        System.out.println("2. Pujar Jugador");
-        System.out.println("3. Poner a la venta un jugador mio");
-        System.out.println("4. Volver al Menu Principal");
-        System.out.println();
-        
+	private static void menuMercado(ObjectInputStream ois,ObjectOutputStream oos) {        
         boolean salir = false;
     	Scanner s = new Scanner(System.in);
         while(!salir) {
+        	System.out.println();
+        	System.out.println("--- SECCION MERCADO ---");
+            System.out.println("1. Ver Jugadores en Venta");
+            System.out.println("2. Pujar Jugador");
+            System.out.println("3. Poner a la venta un jugador");
+            System.out.println("4. Volver al Menu Principal");
+            System.out.println();
             int opcion = s.nextInt();
+            s.nextLine();
             switch(opcion) {
 	            case 1:
 	            	try {
@@ -313,19 +332,25 @@ public class ClienteFantasy {
 	            		
 	            		System.out.println("Introduce el número en la lista del jugador a fichar");
 	            		int numJugador = s.nextInt();
+	            		s.nextLine();
 	            		
 	            		System.out.println("Introduce la cantidad de tu puja");
-	            		double cantidad = s.nextDouble();
+	            		String puja = s.nextLine();
+	            		double cantidad = Double.parseDouble(puja);
 	            		
 	            		oos.writeInt(numJugador);
 	            		oos.writeDouble(cantidad);
 	            		oos.flush();
 	            		
-	            		String respuesta = ois.readUTF();
+	            		String respuesta = ois.readObject().toString();
 	            		System.out.println(respuesta);
+	            		
 	            	} catch (IOException e) {
 	            		e.printStackTrace();
-	            	}
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	break;
 	            case 3: 
 	            	break;

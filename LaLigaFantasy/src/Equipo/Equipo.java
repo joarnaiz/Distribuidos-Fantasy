@@ -2,6 +2,7 @@ package Equipo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Alineacion.Alineacion;
 import Jugador.Jugador;
@@ -12,6 +13,7 @@ public class Equipo implements Serializable{
 	
 	private String nombre;
 	private int puntosTotales;
+	private HashMap<Integer,Integer> puntosJornada;
 	private ArrayList<Jugador> plantilla;
 	private Alineacion alineacion;
 	private static final int MAX_JUGADORES_PlANTILLA = 22;
@@ -23,6 +25,8 @@ public class Equipo implements Serializable{
 		this.plantilla = new ArrayList<>();
         this.saldo = 100000000; // 100 millones
         this.alineacion = new Alineacion();
+        this.puntosJornada = new HashMap<Integer,Integer>();
+        this.puntosTotales=0;
 	}
 	
 	public String getNombre() {
@@ -31,6 +35,15 @@ public class Equipo implements Serializable{
 	
 	public int getPuntos() {
 		return this.puntosTotales;
+	}
+	
+	public void setPuntosJornada(int jornada,int puntos) {
+		this.puntosJornada.put(jornada, puntos);
+		this.puntosTotales+=puntos;
+	}
+	
+	public int getPuntosJornada(int jornada) {
+		return this.puntosJornada.get(jornada);
 	}
 	
 	public double getSaldo() {
