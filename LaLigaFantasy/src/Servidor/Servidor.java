@@ -269,16 +269,21 @@ class Jornada extends TimerTask{
 		}
 		
 		synchronized(this.liga) { //Para que mientras se actualizan las clasificaciones y asi no ver otras versiones	
-			for(Jugador j : Jugadores) {
+			for(Jugador j : this.liga.getJugadoresLibres()) {
 				int n = r.nextInt(-5, 15);
 				j.setPuntosJornada(jornadaActual,n);
 				j.aniadirValor(n*100000.0);
 			}
 			
+			
 			for(Equipo e : this.liga.getClasificacion()) {
 				int puntosE=0;
 				for(Jugador j : e.getAlineacion().getJugadoresDeCampo()) {
-					puntosE+=j.getPuntosJornada(jornadaActual);
+					int n = r.nextInt(-5, 15);
+					j.setPuntosJornada(jornadaActual,n);
+					j.aniadirValor(n*100000.0);
+					puntosE+=n;
+					System.out.println(j.getPuntos());
 				}
 				e.setPuntosJornada(jornadaActual,puntosE);
 				System.out.println(e.getPuntos());
