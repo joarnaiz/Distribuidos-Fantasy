@@ -6,26 +6,32 @@ import java.util.Comparator;
 
 import Equipo.Equipo;
 import Jugador.Jugador;
+import Mercado.Mercado;
 
 public class Liga implements Serializable{
 	
 	private String nombre;
 	private static final int MAX_EQUIPOS = 20;
 	private ArrayList<Equipo> clasificacion;
-	private ArrayList<Jugador> jugadoresDisponibles;
+	private ArrayList<Jugador> jugadoresLibres;
+	private Mercado mercado;
 	
 	public Liga(String nomb) {
 		this.nombre=nomb;
 		this.clasificacion = new ArrayList<Equipo>();
-		this.jugadoresDisponibles = new ArrayList<Jugador>();
+		this.jugadoresLibres = new ArrayList<Jugador>();
 	}
 	
-	public ArrayList<Jugador> getJugadoresDisponibles(){
-		return this.jugadoresDisponibles;
+	public ArrayList<Jugador> getJugadoresLibres(){
+		return this.jugadoresLibres;
 	}
 	
-	public void setJugadoresDisponibles(ArrayList<Jugador> libres) {
-		this.jugadoresDisponibles=libres;
+	public void setJugadoresLibres(ArrayList<Jugador> libres) {
+		this.jugadoresLibres=libres;
+		
+		if (this.mercado == null) {
+			this.mercado = new Mercado(libres);
+		}
 	}
 	
 	public boolean ligaCompleta() {
@@ -54,8 +60,14 @@ public class Liga implements Serializable{
 	
 	public void verClasificacion() {
 		System.out.println("Clasificacion de la liga " + this.nombre + " :");
+		int posicion = 1;
 		for(Equipo e : this.clasificacion) {
-			System.out.print(e);
+			System.out.print(posicion + ". " + e);
+			posicion++;
 		}
+	}
+	
+	public Mercado getMercado() {
+		return this.mercado;
 	}
 }

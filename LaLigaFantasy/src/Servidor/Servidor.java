@@ -30,7 +30,7 @@ public class Servidor {
 		
 		ObtenerJugadores oj = new ObtenerJugadores();
 		todosJugadores = oj.getListaJugadores();
-		liga.setJugadoresDisponibles(todosJugadores);
+		liga.setJugadoresLibres(todosJugadores);
 		
 		Semaphore semaforoAdquirirJugaores = new Semaphore(1);
 		
@@ -81,9 +81,9 @@ class Usuarios implements Runnable{
 			try {
 				this.semaforo.acquire();
 				
-				Collections.shuffle(this.liga.getJugadoresDisponibles());
+				Collections.shuffle(this.liga.getJugadoresLibres());
 				
-				Iterator<Jugador> it = this.liga.getJugadoresDisponibles().iterator();
+				Iterator<Jugador> it = this.liga.getJugadoresLibres().iterator();
 		        while (it.hasNext()) {
 		            Jugador j = it.next();
 		            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
@@ -94,7 +94,7 @@ class Usuarios implements Runnable{
 		        }
 		        
 		        int contador = 0;
-		        it = this.liga.getJugadoresDisponibles().iterator(); 
+		        it = this.liga.getJugadoresLibres().iterator(); 
 		        while (it.hasNext() && contador < 10) {
 		            Jugador j = it.next();
 		            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
@@ -118,7 +118,8 @@ class Usuarios implements Runnable{
 	        while(!salir) {
 	        	String opcion = (String)ois.readObject();        
 		        switch(opcion) {
-		        //---------EQUIPO-----------
+		        
+		        	//---------EQUIPO-----------
 		        	case "Ver plantilla":
 		        		oos.writeObject(this.equipo);
 		        		oos.reset();
@@ -153,6 +154,26 @@ class Usuarios implements Runnable{
 		        		oos.reset();
 		        		oos.flush();
 		        		break;	
+		        	
+		        		
+		        	//----------MERCADO----------
+		        	case "Ver jugadores en Venta":
+		        		oos.writeObject(this.liga.getMercado());
+		        		oos.reset();
+		        		oos.flush();
+		        		break;
+		        	case "Pujar jugador":
+		        		try {
+		        			int numJugador = ois.readInt();
+		        			double cantidad = ois.readDouble();
+		        			
+		        			String respuesta = this.liga.getMercado().pujarJugador(numJugador, this.equipo, cantidad);
+		        			oos.writeUTF(respuesta);
+		        			oos.flush();
+		        		}catch (IOException e) {
+		        			e.printStackTrace();
+		        		}
+		        		
 		        }
 	        }
 	        

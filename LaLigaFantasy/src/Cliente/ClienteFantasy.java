@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import Equipo.Equipo;
 import Liga.Liga;
+import Mercado.Mercado;
 
 public class ClienteFantasy {
 
@@ -248,18 +249,49 @@ public class ClienteFantasy {
         System.out.println("4. Volver al Menu Principal");
         System.out.println();
         
-        boolean salir=false;
+        boolean salir = false;
     	Scanner s = new Scanner(System.in);
         while(!salir) {
             int opcion = s.nextInt();
             switch(opcion) {
 	            case 1:
+	            	try {
+	            		String m = "Ver jugadores en Venta";
+	            		oos.writeObject(m);
+						oos.flush();
+						
+						Mercado mercado = (Mercado) ois.readObject();
+						mercado.mostrarMercado();
+	            	} catch(IOException | ClassNotFoundException e) {
+	            		e.printStackTrace();
+	            	}	
+	            	
 	            	break;
 	            case 2:
+	            	try {
+	            		String m = "Pujar jugador";
+	            		oos.writeObject(m);
+	            		oos.flush();
+	            		
+	            		System.out.println("Introduce el número en la lista del jugador a fichar");
+	            		int numJugador = s.nextInt();
+	            		
+	            		System.out.println("Introduce la cantidad de tu puja");
+	            		double cantidad = s.nextDouble();
+	            		
+	            		oos.writeInt(numJugador);
+	            		oos.writeDouble(cantidad);
+	            		oos.flush();
+	            		
+	            		String respuesta = ois.readUTF();
+	            		System.out.println(respuesta);
+	            	} catch (IOException e) {
+	            		e.printStackTrace();
+	            	}
 	            	break;
-	            case 3:
+	            case 3: 
 	            	break;
-	            case 4:
+	            case 4: 
 	            	salir = true;
 	            	break;
 	            default:

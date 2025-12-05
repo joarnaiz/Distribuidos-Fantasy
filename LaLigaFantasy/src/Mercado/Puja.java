@@ -1,9 +1,11 @@
 package Mercado;
 
+import java.io.Serializable;
+
 import Equipo.Equipo;
 import Jugador.Jugador;
 
-public class Puja {
+public class Puja implements Serializable{
 	private Equipo equipoPuja;
 	private Jugador jugadorPuja;
 	private double cantidadPuja;

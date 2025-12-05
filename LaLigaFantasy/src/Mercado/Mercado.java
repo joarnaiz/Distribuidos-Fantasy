@@ -1,5 +1,6 @@
 package Mercado;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,16 +10,16 @@ import Equipo.Equipo;
 import Jugador.Jugador;
 import Mercado.Puja;
 
-public class Mercado {
+public class Mercado implements Serializable{
 
 	private List<Jugador> jugadoresDisponibles;
-	private List<Jugador> jugadoresTotales;
+	private List<Jugador> jugadoresLibres;
 	private static final int JUGADORES_MERCADO = 20;
 	private final Random random = new Random();
 	private List<Puja> listaPujas;
 	
 	public Mercado(List<Jugador> poolJugadores) {
-		this.jugadoresTotales = new ArrayList<>(poolJugadores);
+		this.jugadoresLibres = new ArrayList<>(poolJugadores);
 		this.jugadoresDisponibles = new ArrayList<Jugador>();
 		this.listaPujas = new ArrayList<>();
 		actualizarMercado();
@@ -27,7 +28,7 @@ public class Mercado {
 	public void actualizarMercado() {
 		this.jugadoresDisponibles.clear();
 		
-		List<Jugador> copia = new ArrayList<>(this.jugadoresTotales);
+		List<Jugador> copia = new ArrayList<>(this.jugadoresLibres);
 		Collections.shuffle(copia, random);
 		
 		int limite = Math.min(copia.size(), JUGADORES_MERCADO); // Por si hay menos de 20 futbolistas disponibles
@@ -49,17 +50,15 @@ public class Mercado {
 		 }	
 	}
 	
-	public boolean pujarJugador(int opcion, Equipo equipo, double tuPuja) {
+	public String pujarJugador(int opcion, Equipo equipo, double tuPuja) {
 		if (opcion < 1 || opcion > jugadoresDisponibles.size() || tuPuja < jugadoresDisponibles.get(opcion-1).getValor()) {
-			System.out.println("Error al pujar por el jugador");
-			return  false;
+			return "Error al pujar por el jugador";
 		}
 		
 		Jugador fichaje = jugadoresDisponibles.get(opcion-1);
 		
 		if (equipo.getSaldo() < tuPuja) {
-			System.out.println("El jugador no tiene dinero");
-			return false;
+			return "El jugador no tiene dinero";
 		}
 		
 		equipo.setSaldo(-tuPuja);
@@ -67,8 +66,7 @@ public class Mercado {
 		listaPujas.add(p);
 		
 		// En caso de que la puja sea igual, gana el jugador que primero pujó
-		System.out.println("Has pujado por: " + fichaje.getNombre());
-		return true;
+		return "Has pujado " + tuPuja + "€ por " + fichaje.getNombre() + ". ¡Mucha suerte!";
 	}
 	
 	public void comprobarPujas() {
@@ -112,6 +110,7 @@ public class Mercado {
 		}
 		
 		jugadoresDisponibles.removeAll(vendidos);
+		jugadoresLibres.removeAll(vendidos);
 		listaPujas.clear();
 	}
 }
