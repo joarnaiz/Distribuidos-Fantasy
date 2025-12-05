@@ -45,8 +45,8 @@ public class Liga implements Serializable{
 					return "Equipo existente";
 				}
 			}
-			
-		}else {
+		}
+		else {
 			return "Liga completa";
 		}
 		this.clasificacion.add(e);

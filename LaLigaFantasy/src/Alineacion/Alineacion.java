@@ -56,25 +56,25 @@ public class Alineacion implements Serializable{
 		return false;
 	}
 	
-		public void mostrarAlineacion() {
-			System.out.println("--- ALINEACIÓN ---");
+	public void mostrarAlineacion() {
+		System.out.println("--- ALINEACIÓN ---");
 			
-			System.out.println("Portero:");
-			if (this.portero == null) {
-				System.out.println("Estás sin portero");
-			} else {
-				System.out.println("  " + this.portero);
-			}
+		System.out.println("Portero:");
+		if (this.portero == null) {
+			System.out.println("Estás sin portero");
+		} else {
+			System.out.println("  " + this.portero);
+		}
 			
-			System.out.println("Jugadores de campo:");
-			if (this.jugadoresDeCampo.isEmpty()) {
-				System.out.println("No tienes jugadores de campo alineados");
-			} else {
-				for (Jugador j : this.jugadoresDeCampo) {
-					System.out.println("   " + j);
-				}
+		System.out.println("Jugadores de campo:");
+		if (this.jugadoresDeCampo.isEmpty()) {
+			System.out.println("No tienes jugadores de campo alineados");
+		} else {
+			for (Jugador j : this.jugadoresDeCampo) {
+				System.out.println("   " + j);
 			}
 		}
+	}
 	
 	/* Lo he hecho en equipo para comprobar que ambos estan en el equipo
 	 * 

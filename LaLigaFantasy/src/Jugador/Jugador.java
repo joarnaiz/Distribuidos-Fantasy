@@ -25,15 +25,19 @@ public class Jugador implements Serializable{
 	public String getNombre() {
 		return this.nombre;
 	}
+	
 	public String getEquipo() {
 		return this.equipo;
 	}
+	
 	public Posicion getPosicion() {
 		return this.posicion;
 	}
+	
 	public int getPuntos() {
 		return this.puntos;
 	}
+	
 	public int getId() {
 		return this.id;
 	}

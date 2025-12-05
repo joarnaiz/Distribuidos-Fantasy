@@ -24,6 +24,7 @@ public class Equipo implements Serializable{
         this.saldo = 100000000; // 100 millones
         this.alineacion = new Alineacion();
 	}
+	
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -89,7 +90,6 @@ public class Equipo implements Serializable{
 		return resultado;
 	}
 	
-	
 	public String sustituirJugador(int sale,int entra) { //Los sustituye en la alineacion
 		
 		Jugador jEntra = jugadorEnEquipo(entra);
@@ -115,7 +115,6 @@ public class Equipo implements Serializable{
 		
 		return resultado;
 	}
-	
 	
 	public void mostrarPlantilla() {
 		System.out.println("Plantilla de " +this.nombre + " :");
