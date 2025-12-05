@@ -49,8 +49,15 @@ public class Equipo implements Serializable{
 	public double getSaldo() {
 		return this.saldo;
 	}
+	
 	public void setSaldo(double d) {
 		this.saldo += d;
+	}
+	
+	public void eliminarJugadorPlantilla(Jugador j) {
+		this.plantilla.remove(j);
+		
+		this.alineacion.eliminarJugador(j);
 	}
 	
 	public boolean equipoCompleto() {

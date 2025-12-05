@@ -135,11 +135,13 @@ class Usuarios implements Runnable{
 		        		oos.reset();
 			        	oos.flush();
 			        	break;
+			        	
 		        	case "Ver once":
 		        		oos.writeObject(this.equipo);
 		        		oos.reset();
 			        	oos.flush();
 			        	break;
+			        	
 		        	case "Alinear jugador":
 		        		int idJugador =(Integer)ois.readObject();
 		        		String aniadido=this.equipo.alinearJugador(idJugador);
@@ -147,6 +149,7 @@ class Usuarios implements Runnable{
 		        		oos.writeObject(aniadido);
 			        	oos.flush();
 		        		break;
+		        		
 		        	case "Sustituir jugador":
 		        		int idSale = (Integer)ois.readObject();
 		        		int idEntra = (Integer)ois.readObject();
@@ -155,6 +158,7 @@ class Usuarios implements Runnable{
 			        	oos.writeObject(resultado);
 			        	oos.flush();
 		        		break;
+		        		
 		        	case "Eco club":
 		        		double valorEq = 0.0;
 		        		for (Jugador j : this.equipo.getJugadores()) {
@@ -184,12 +188,14 @@ class Usuarios implements Runnable{
 		        		oos.flush();
 		        		break;
 		        		
+		        		
 		        	//----------MERCADO----------
 		        	case "Ver jugadores en Venta":
 		        		oos.writeObject(this.liga.getMercado());
 		        		oos.reset();
 		        		oos.flush();
 		        		break;
+		        		
 		        	case "Pujar jugador":
 		        		try {
 		        			int numJugador = ois.readInt();
@@ -201,7 +207,20 @@ class Usuarios implements Runnable{
 		        		}catch (IOException e) {
 		        			e.printStackTrace();
 		        		}
-		        		
+		        		break;
+		        	
+		        	case "Vender jugador":
+		        		try {
+		        			int idJugador = (Integer) ois.readObject();
+		        			String venta = this.liga.getMercado().venderJugador(idVenta, this.equipo);
+		        			
+		        			oos.writeObject(venta);
+		        			oos.flush();
+		        			
+		        		}catch (Exception e) {
+		        	        e.printStackTrace();
+		        	    }
+		        		break;
 		        }
 	        }
 	        

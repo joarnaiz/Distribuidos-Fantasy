@@ -127,4 +127,19 @@ public class Mercado implements Serializable{
 		jugadoresLibres.removeAll(vendidos);
 		listaPujas.clear();
 	}
+	
+	
+	public String venderJugador(int idJugador, Equipo equipoVendedor) {
+		Jugador jugadorVenta = equipoVendedor.jugadorEnEquipo(idJugador);
+		if (jugadorVenta == null) {
+			return "Error, jugador no encontrado";
+		}
+		
+		equipoVendedor.setSaldo(jugadorVenta.getValor());
+		equipoVendedor.eliminarJugadorPlantilla(jugadorVenta);
+		
+		this.jugadoresLibres.add(jugadorVenta);
+		
+		return "Le has dicho a " + jugadorVenta.getNombre() + " que haga las maletas";
+	}
 }

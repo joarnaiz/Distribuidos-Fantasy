@@ -24,8 +24,6 @@ public class ClienteFantasy {
 				ObjectOutputStream oos = new ObjectOutputStream(out)){
 			
 			
-			
-			
 			System.out.println("Bienvenido! Escribe el nombre de tu Equipo Fantasy");
 			Scanner nE = new Scanner(System.in);
 			String nombre = nE.nextLine();
@@ -47,19 +45,24 @@ public class ClienteFantasy {
 				s.nextLine();
 				
 				switch(opcion) {
+				
 					case 1:
 						menuEquipo(ois,oos);
 						break;
+						
 					case 2:
 						menuLiga(ois,oos);
 						break;
+						
 					case 3:
 						menuMercado(ois,oos);
 						break;
+						
 					case 4:
 						//Enviar al servidor que ha abandonado la liga para que borre todos sus datos.
 						salir=true;
 						break;
+						
 					default:
 						System.out.println("Opción incorrecta");
 				}
@@ -108,7 +111,8 @@ public class ClienteFantasy {
             int opcion = s.nextInt();
             s.nextLine();
             switch(opcion) {
-	            case 1:
+	            
+            	case 1:
 	            	try {
 
 	                    String m = "Ver plantilla";
@@ -124,6 +128,7 @@ public class ClienteFantasy {
 	                }
 	            	
 	            	break;
+	            
 	            case 2:
 	            	
 	            	try {
@@ -142,6 +147,7 @@ public class ClienteFantasy {
 	                }
 	            	
 	            	break;
+	            
 	            case 3:
 	            	try {
 	            		String m = "Alinear jugador";
@@ -165,6 +171,7 @@ public class ClienteFantasy {
 					}
 	            	
 	            	break;
+	            	
 	            case 4:
 	            	try {
 	            		String m = "Sustituir jugador";
@@ -191,6 +198,7 @@ public class ClienteFantasy {
 						e.printStackTrace();
 					}
 	            	break;
+	            	
 	            case 5:
 	            	try {
 	            		String m = "Eco club";
@@ -207,9 +215,11 @@ public class ClienteFantasy {
 					}
 	            	
 	            	break;
+	            	
 	            case 6:
 	            	salir = true;
 	            	break;
+	            	
 	            default:
 	            	System.out.println("Numero Incorrecto");
             }
@@ -230,6 +240,7 @@ public class ClienteFantasy {
             int opcion = s.nextInt();
             s.nextLine();
             switch(opcion) {
+            
 	            case 1:
 				try {
 					String m = "Ver clasificacion";
@@ -246,6 +257,7 @@ public class ClienteFantasy {
 				}
 	            	
 	            	break;
+	            	
 	            case 2:
 	            	try {
 	            		String m = "Ver clasificacion";
@@ -266,6 +278,7 @@ public class ClienteFantasy {
 	            	
 					
 	            	break;
+	            	
 	            case 3:
 	            	try {
 						String m = "Ojear Equipo";
@@ -291,9 +304,11 @@ public class ClienteFantasy {
 						e.printStackTrace();
 					}
 	            	break;
+	            	
 	            case 4:
 	            	salir = true;
 	            	break;
+	            	
 	            default:
 	            	System.out.println("Numero Incorrecto");
             }
@@ -310,12 +325,13 @@ public class ClienteFantasy {
         	System.out.println("--- SECCION MERCADO ---");
             System.out.println("1. Ver Jugadores en Venta");
             System.out.println("2. Pujar Jugador");
-            System.out.println("3. Poner a la venta un jugador");
+            System.out.println("3. Vender un jugador");
             System.out.println("4. Volver al Menu Principal");
             System.out.println();
             int opcion = s.nextInt();
             s.nextLine();
             switch(opcion) {
+            
 	            case 1:
 	            	try {
 	            		String m = "Ver jugadores en Venta";
@@ -332,6 +348,7 @@ public class ClienteFantasy {
 					}
 	            	
 	            	break;
+	            	
 	            case 2:
 	            	try {
 	            		String m = "Pujar jugador";
@@ -360,11 +377,31 @@ public class ClienteFantasy {
 						e.printStackTrace();
 					}
 	            	break;
-	            case 3: 
-	            	break;
+	            	
+	            case 3:
+	            	try {
+	            		String m = "Vender jugador";
+	            		oos.writeObject(m);
+	                    oos.flush();
+	                    
+	                    System.out.println("Introduce el ID del jugador que quieres vender:");
+	                    int idJugadorVenta = s.nextInt();
+	                    
+	                    oos.writeObject(idJugadorVenta);
+	                    oos.flush();
+	                    
+	                    String respuesta = (String) ois.readObject();
+	                    System.out.println(respuesta);
+	                    
+	            	}catch (IOException | ClassNotFoundException e) {
+	                    e.printStackTrace();
+	                }
+	                break;
+	            	
 	            case 4: 
 	            	salir = true;
 	            	break;
+	            	
 	            default:
 	            	System.out.println("Numero Incorrecto");
             }
