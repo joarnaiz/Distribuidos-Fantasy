@@ -63,14 +63,11 @@ public class ObtenerJugadores {
 			
 			InputStream in = con.getInputStream();
 			
-			
-			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document d = db.parse(in);
 			
-			NodeList equipos = d.getElementsByTagName("m:string");
-			
+			NodeList equipos = d.getElementsByTagName("m:string");	
 			
 			for(int i=0;i<equipos.getLength();i++) {
 				String nombre = equipos.item(i).getTextContent();
@@ -79,14 +76,13 @@ public class ObtenerJugadores {
 
 		}catch(IOException e) {
 			e.printStackTrace();
+			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return listaEquipos;
 	}
 	
@@ -109,18 +105,18 @@ public class ObtenerJugadores {
 			}
 			
 		}catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
 		pool.shutdown();
-		
 		return listaJugadores;
 	}
 
 }
+
 
 class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 	
@@ -183,15 +179,14 @@ class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 			
 		}catch(IOException e){
 			e.printStackTrace();
+			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
-		
 		return jugadoresPorPosicion;
 	}
-	
 }

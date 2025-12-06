@@ -25,7 +25,7 @@ public class ClienteFantasy {
 				ObjectOutputStream oos = new ObjectOutputStream(out)){
 			
 			
-			System.out.println("Bienvenido! Escribe el nombre de tu Equipo Fantasy");
+			System.out.println("¡Bienvenido! Escribe el nombre de tu Equipo Fantasy");
 			Scanner nE = new Scanner(System.in);
 			String nombre = nE.nextLine();
 			
@@ -68,16 +68,12 @@ public class ClienteFantasy {
 					default:
 						System.out.println("Opción incorrecta");
 				}
-				
 			}
-			
 			s.close();
 			nE.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	
@@ -123,10 +119,13 @@ public class ClienteFantasy {
 
 	                    Equipo e = (Equipo) ois.readObject();
 	                    e.mostrarPlantilla();
+	                    
 	            	}catch(IOException e) {
 	                    e.printStackTrace();
+	                    
 	                }catch (ClassNotFoundException e1) {
 	                    e1.printStackTrace();
+	                    
 	                }
 	            	
 	            	break;
@@ -144,8 +143,10 @@ public class ClienteFantasy {
 	                    
 	            	}catch(IOException e) {
 	                    e.printStackTrace();
+	                    
 	                }catch (ClassNotFoundException e1) {
 	                    e1.printStackTrace();
+	                    
 	                }
 	            	
 	            	break;
@@ -167,9 +168,10 @@ public class ClienteFantasy {
 		            	
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	
 	            	break;
@@ -195,9 +197,10 @@ public class ClienteFantasy {
 		            	
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	break;
 	            	
@@ -209,13 +212,14 @@ public class ClienteFantasy {
 		            	
 		            	String respuesta = ois.readObject().toString();
 		            	System.out.println(respuesta);
+		            	
 	            	} catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
-	            	
 	            	break;
 	            	
 	            case 6:
@@ -251,13 +255,14 @@ public class ClienteFantasy {
 					
 					Liga l = (Liga) ois.readObject();
 					l.verClasificacion();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
+					
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
-	            	
 	            	break;
 	            	
 	            case 2:
@@ -271,11 +276,13 @@ public class ClienteFantasy {
 						
 						Liga l = (Liga) ois.readObject();
 						l.verClasificacionJornada(jornada);
+						
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	
 					
@@ -301,9 +308,10 @@ public class ClienteFantasy {
 						}	
 					} catch (IOException e) {
 						e.printStackTrace();
+						
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	break;
 	            	
@@ -344,11 +352,13 @@ public class ClienteFantasy {
 						
 						Mercado mercado = (Mercado) ois.readObject();
 						mercado.mostrarMercado();
+						
 	            	} catch (IOException e) {
 						e.printStackTrace();
+						
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	
 	            	break;
@@ -376,9 +386,10 @@ public class ClienteFantasy {
 	            		
 	            	} catch (IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	break;
 	            	
@@ -418,13 +429,14 @@ public class ClienteFantasy {
 	            		oos.flush();
 	            		
 	            		System.out.println(ois.readObject());
+	            		
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
-	            	
 	            	break;
 	            
 	            case 5:
@@ -448,12 +460,12 @@ public class ClienteFantasy {
 	            			}
 	            		}
 	            		
-	            		
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
+	            		
 	            	} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						
 					}
 	            	break;
 	            	

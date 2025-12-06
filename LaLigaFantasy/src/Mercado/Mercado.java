@@ -67,6 +67,7 @@ public class Mercado implements Serializable{
 	public List<Puja> getPujas(){
 		return this.listaPujas;
 	}
+	
 	public void eliminarPuja(Puja p) {
 		this.listaPujas.remove(p);
 	}
@@ -135,7 +136,6 @@ public class Mercado implements Serializable{
 		listaPujas.clear();
 	}
 	
-	
 	public String venderJugador(int idJugador, Equipo equipoVendedor) {
 		Jugador jugadorVenta = equipoVendedor.jugadorEnEquipo(idJugador);
 		if (jugadorVenta == null) {
@@ -188,7 +188,6 @@ public class Mercado implements Serializable{
 	
 	public String rechazarOferta(Oferta oferta) {
 		Equipo vendedor = oferta.getVendedor();
-		
 		vendedor.eliminarOferta(oferta);
 		
 		return "Oferta rechazada, el jugador " + oferta.getJugadorAFichar() + " se queda en tu club";

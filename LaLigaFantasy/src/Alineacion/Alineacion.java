@@ -104,6 +104,7 @@ public class Alineacion implements Serializable{
 		return true;
 	}
 	*/
+	
 	public void limpiarAlineacion() {
 	    this.portero = null;
 	    this.jugadoresDeCampo.clear();

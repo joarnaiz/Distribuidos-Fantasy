@@ -53,6 +53,7 @@ public class Jugador implements Serializable{
 		this.puntosJornada.put(jornada, puntos);
 		this.puntos+=puntos;
 	}
+	
 	public int getPuntosJornada(int jornada) {
 		return this.puntosJornada.get(jornada);
 	}
@@ -72,7 +73,6 @@ public class Jugador implements Serializable{
 	    return this.id == jug.id;                     
 	}
 	
-
 	public String toString() {
 		String stringJugador = "Nombre: " + this.nombre + "  Equipo: " + this.equipo + "  Posicion: " + this.posicion + "  Valor: " + this.valor
 				+ "  Puntos: " + this.puntos + "  ID: " + this.id;

@@ -57,6 +57,7 @@ public class Servidor {
 					e.printStackTrace();
 				}
 			}
+			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -227,6 +228,7 @@ class Usuarios implements Runnable{
 		        	        e.printStackTrace();
 		        	    }
 		        		break;
+		        		
 		        	case "Hacer oferta":
 		        		try {
 		        			String nombEquipo = ois.readObject().toString();
@@ -278,26 +280,27 @@ class Usuarios implements Runnable{
 		        }
 	        }
 	        
-
 		}catch(IOException e) {
 			e.printStackTrace();
+			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}finally {
 			try {
 				this.cliente.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
+				
 			}
 		}
-		
 	}
-	
 }
+
 
 class ActualizaMercado extends TimerTask{
 
@@ -306,6 +309,7 @@ class ActualizaMercado extends TimerTask{
 	public ActualizaMercado(Mercado m) {
 		this.mercado=m;
 	}
+	
 	@Override
 	public void run() { //Para que otros hilos no puedan hacer operaciones de mercado mientras este cambia
 		synchronized(this.mercado) {
@@ -315,6 +319,7 @@ class ActualizaMercado extends TimerTask{
 	}
 	
 }
+
 
 class Jornada extends TimerTask{
 	
