@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import Equipo.Equipo;
@@ -127,7 +129,6 @@ public class ClienteFantasy {
 	                    e1.printStackTrace();
 	                    
 	                }
-	            	
 	            	break;
 	            
 	            case 2:
@@ -148,7 +149,6 @@ public class ClienteFantasy {
 	                    e1.printStackTrace();
 	                    
 	                }
-	            	
 	            	break;
 	            
 	            case 3:
@@ -173,7 +173,6 @@ public class ClienteFantasy {
 						e.printStackTrace();
 						
 					}
-	            	
 	            	break;
 	            	
 	            case 4:
@@ -284,8 +283,6 @@ public class ClienteFantasy {
 						e.printStackTrace();
 						
 					}
-	            	
-					
 	            	break;
 	            	
 	            case 3:
@@ -360,7 +357,6 @@ public class ClienteFantasy {
 						e.printStackTrace();
 						
 					}
-	            	
 	            	break;
 	            	
 	            case 2:
@@ -446,20 +442,37 @@ public class ClienteFantasy {
 	            		
 	            		Equipo e = (Equipo) ois.readObject();
 	            		
-	            		while(e.getOfertas().size()>0) {
-	            			for(Oferta o : e.getOfertas()) {
-	            				System.out.println("Tienes una oferta (A/R)");
-	            				System.out.println(o);
-	            				
-	            				String aceptarRechazar = s.nextLine();
-	            				if(aceptarRechazar.equalsIgnoreCase("A")) {
-	            					//Habria que mandarle un mensaje al servidor y que lo gestione o que directamente lo gestione todo el
-	            				}else if(aceptarRechazar.equalsIgnoreCase("R")) {
-	            					e.eliminarOferta(o);
-	            				}
-	            			}
+	            		if(e.getOfertas().isEmpty()) {
+	            			System.out.println("No tienes ofertas pendientes");
+	            			break;
 	            		}
 	            		
+	            		// Iteramos con la copia
+	            		List<Oferta> copia = new ArrayList<>(e.getOfertas());
+	            		
+	           			for(Oferta o : copia) {
+	           				System.out.println("----- OFERTA -----");
+	           				System.out.println(o);
+	           				System.out.println("Pulsa A para aceptar la oferta o R para rechazarla. Escribe cualquier otra cosa para no resolverla");
+	           				
+	           				String aceptarRechazar = s.next();
+	           				
+	           				if(aceptarRechazar.equalsIgnoreCase("A") || aceptarRechazar.equalsIgnoreCase("a")) {
+	            				oos.writeObject("Aceptar oferta");
+	            				oos.writeObject(o);
+	            				oos.flush();
+	            				String respuesta = (String) ois.readObject();
+	            				System.out.println(respuesta);
+	            					
+	            			}else if(aceptarRechazar.equalsIgnoreCase("R") || aceptarRechazar.equalsIgnoreCase("r")) {
+	            				oos.writeObject("Rechazar oferta");
+	            				oos.writeObject(o);
+	            				oos.flush();
+	            				String respuesta = (String) ois.readObject();
+	            				System.out.println(respuesta);
+	            			}
+	            		}
+	           			
 	            	}catch(IOException e) {
 	            		e.printStackTrace();
 	            		

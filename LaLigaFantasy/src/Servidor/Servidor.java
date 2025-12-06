@@ -233,37 +233,40 @@ class Usuarios implements Runnable{
 		        		try {
 		        			String nombEquipo = ois.readObject().toString();
 			        		int idJug = Integer.parseInt(ois.readObject().toString());
-			        		Double cant = Double.parseDouble(ois.readObject().toString());
+			        		double cant = Double.parseDouble(ois.readObject().toString());
 			        		
-			        		String msg = ""; 
-			        		if(cant<this.equipo.getSaldo()) {
+			        		String msg = "";
+			        		
+			        		if(cant > this.equipo.getSaldo()) {
 			        			msg = "Saldo insuficiente";
-			        		}
-			        		
-			        		Equipo rival = this.liga.getEquipoPorNombre(nombreEquipo);
-			        		
-			        		if(rival!=null) {
-			        			Jugador jugadorOferta =null;
-			        			for(Jugador j : rival.getJugadores()) {
-			        				if(j.getId()==idJug){
-			        					jugadorOferta = j;
-			        					break;
-			        				}
-			        			}
-			        			
-			        			if(jugadorOferta!=null) {
-			        				Oferta o = new Oferta(this.equipo,rival,jugadorOferta,cant);
-			        				rival.recibirOferta(o);
-			        				msg="Oferta enviada";
-			        			}else {
-			        				msg="Este equipo no tiene a este jugador";
-			        			}
 			        		}else {
-			        			msg="Este equipo no esta en la liga";
+			        			Equipo rival = this.liga.getEquipoPorNombre(nombEquipo);
+				        		
+				        		if(rival!=null) {
+				        			if (rival.getNombre().equals(this.equipo.getNombre())) {
+				        				msg = "No puedes hacerte ofertas a ti mismo");
+				        			}else {
+				        				Jugador jugadorOferta =null;
+					        			for(Jugador j : rival.getJugadores()) {
+					        				if(j.getId()==idJug){
+					        					jugadorOferta = j;
+					        					break;
+					        				}
+					        			}
+					        			
+					        			if(jugadorOferta!=null) {
+					        				Oferta o = new Oferta(this.equipo,rival,jugadorOferta,cant);
+					        				rival.recibirOferta(o);
+					        				msg="Oferta enviada";
+					        			}else {
+					        				msg="Este equipo no tiene a este jugador";
+					        			}
+				        			}
+				        		}else {
+				        			msg="Este equipo no esta en la liga";
+				        		}
 			        		}
-			        		
-			        	
-			        		
+	
 			        		oos.writeObject(msg);
 			        		oos.flush();
 		        		}catch(IOException e) {
@@ -275,6 +278,20 @@ class Usuarios implements Runnable{
 		        	case "Buzon de ofertas":
 		        		oos.writeObject(this.equipo);
 		        		oos.reset();
+		        		oos.flush();
+		        		break;
+		        		
+		        	case "Aceptar oferta":
+		        		Oferta o = (Oferta) ois.readObject();
+		        		String respuesta = this.liga.getMercado().aceptarOferta(o);
+		        		oos.writeObject(respuesta);
+		        		oos.flush();
+		        		break;
+		        		
+		        	case "Rechazar oferta":
+		        		Oferta of = (Oferta) ois.readObject();
+		        		String res = this.liga.getMercado().rechazarOferta(of);
+		        		oos.writeObject(res);
 		        		oos.flush();
 		        		break;
 		        }
