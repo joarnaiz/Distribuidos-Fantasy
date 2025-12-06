@@ -46,6 +46,7 @@ public class Servidor {
 					
 					Usuarios u = new Usuarios(cliente, liga,semaforoAdquirirJugaores);
 					usuarios.execute(u);
+					
 					//Hilo que controla la actualizacion del mercado.
 					Timer t = new Timer();
 					t.scheduleAtFixedRate(new ActualizaMercado(liga.getMercado()) ,0,10*60*1000);
@@ -86,7 +87,6 @@ class Usuarios implements Runnable{
 			
 			String nombreEquipo = ois.readObject().toString();
 			this.equipo = new Equipo(nombreEquipo);
-			
 			this.liga.aniadirEquipo(this.equipo);
 			
 			try {
@@ -96,6 +96,7 @@ class Usuarios implements Runnable{
 				
 				Iterator<Jugador> it = this.liga.getJugadoresLibres().iterator();
 		        while (it.hasNext()) {
+		        	
 		            Jugador j = it.next();
 		            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
 		                this.equipo.aniadirJugador(j);
@@ -107,6 +108,7 @@ class Usuarios implements Runnable{
 		        int contador = 0;
 		        it = this.liga.getJugadoresLibres().iterator(); 
 		        while (it.hasNext() && contador < 10) {
+		        	
 		            Jugador j = it.next();
 		            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
 		                this.equipo.aniadirJugador(j);
@@ -124,7 +126,6 @@ class Usuarios implements Runnable{
     			this.equipo.getAlineacion().aniadirJugador(j);
     		}
 	        
-	        
 	        boolean salir = false;
 	        while(!salir) {
 	        	String opcion = ois.readObject().toString();        
@@ -136,6 +137,7 @@ class Usuarios implements Runnable{
 		        		salir=true;
 		        		break;
 		        
+		        		
 		        	//---------EQUIPO-----------
 		        	case "Ver plantilla":
 		        		oos.writeObject(this.equipo);
@@ -174,6 +176,7 @@ class Usuarios implements Runnable{
 		        		String saldoEquipo = String.format("Tu saldo es %.2f €", this.equipo.getSaldo());
 		        		String valorEquipo = String.format("y tu equipo tiene un valor de %.2f €", valorEq);
 		        		String eco = saldoEquipo + " " + valorEquipo;
+		        		
 		        		oos.writeObject(eco);
 		        		oos.flush();
 		        		break;
@@ -190,6 +193,7 @@ class Usuarios implements Runnable{
 		        		
 		        		String nombreEq = ois.readObject().toString();
 		        		Equipo equipo = this.liga.getEquipoPorNombre(nombreEq);
+		        		
 		        		oos.writeObject(equipo);
 		        		oos.reset();
 		        		oos.flush();
@@ -258,6 +262,7 @@ class Usuarios implements Runnable{
 					        				Oferta o = new Oferta(this.equipo,rival,jugadorOferta,cant);
 					        				rival.recibirOferta(o);
 					        				msg="Oferta enviada";
+					        				
 					        			}else {
 					        				msg="Este equipo no tiene a este jugador";
 					        			}
@@ -269,10 +274,11 @@ class Usuarios implements Runnable{
 	
 			        		oos.writeObject(msg);
 			        		oos.flush();
+			        		
 		        		}catch(IOException e) {
 		        			e.printStackTrace();
+		        			
 		        		}
-		        		
 		        		break;
 		        	
 		        	case "Buzon de ofertas":
@@ -283,6 +289,7 @@ class Usuarios implements Runnable{
 		        		
 		        	case "Aceptar oferta":
 		        		Oferta o = (Oferta) ois.readObject();
+		        		
 		        		String respuesta = this.liga.getMercado().aceptarOferta(o);
 		        		oos.writeObject(respuesta);
 		        		oos.flush();
@@ -290,6 +297,7 @@ class Usuarios implements Runnable{
 		        		
 		        	case "Rechazar oferta":
 		        		Oferta of = (Oferta) ois.readObject();
+		        		
 		        		String res = this.liga.getMercado().rechazarOferta(of);
 		        		oos.writeObject(res);
 		        		oos.flush();
@@ -375,6 +383,7 @@ class Jornada extends TimerTask{
 					int n = r.nextInt(-5, 15);
 					j.setPuntosJornada(jornadaActual,n);
 					j.aniadirValor(n*100000.0);
+					
 					puntosE+=n;
 				}
 				e.setPuntosJornada(jornadaActual,puntosE);
@@ -383,7 +392,7 @@ class Jornada extends TimerTask{
 			this.liga.actualizarClasificacion();
 			this.liga.actualizarClasificacionJornada(jornadaActual);
 		}
+		
 		this.jornadaActual++;
 	}
-	
 }

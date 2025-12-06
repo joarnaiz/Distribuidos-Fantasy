@@ -461,6 +461,7 @@ public class ClienteFantasy {
 	            				oos.writeObject("Aceptar oferta");
 	            				oos.writeObject(o);
 	            				oos.flush();
+	            				
 	            				String respuesta = (String) ois.readObject();
 	            				System.out.println(respuesta);
 	            					
@@ -468,6 +469,7 @@ public class ClienteFantasy {
 	            				oos.writeObject("Rechazar oferta");
 	            				oos.writeObject(o);
 	            				oos.flush();
+	            				
 	            				String respuesta = (String) ois.readObject();
 	            				System.out.println(respuesta);
 	            			}

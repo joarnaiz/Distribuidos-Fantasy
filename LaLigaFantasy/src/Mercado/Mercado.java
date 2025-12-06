@@ -26,6 +26,7 @@ public class Mercado implements Serializable{
 		this.jugadoresDisponibles = new ArrayList<Jugador>();
 		this.listaPujas = new ArrayList<>();
 		this.ultimaActualizacionMercado=System.currentTimeMillis();
+		
 		actualizarMercado();
 	}
 	
@@ -46,10 +47,12 @@ public class Mercado implements Serializable{
 		
 		
 		System.out.println("--- MERCADO ---");
+		
 		if (jugadoresDisponibles.isEmpty()) {
             System.out.println("No hay jugadores en el mercado actualmente.");
             return;
         }
+		
 		for (int i = 1; i <= jugadoresDisponibles.size(); i++) {
 			Jugador j = jugadoresDisponibles.get(i-1);	 
 			System.out.println(i + ". " + j.toString());
@@ -93,6 +96,7 @@ public class Mercado implements Serializable{
 	
 	public void comprobarPujas() {
 		System.out.println("Comprobando pujas...");
+		
 		if (listaPujas.isEmpty()) {
 			System.out.println("No ha habido pujas en este mercado");
 			return;
@@ -114,12 +118,12 @@ public class Mercado implements Serializable{
 						mejorPuja = p;
 					}
 				}
-				
 			}
 			
 			if (mejorPuja != null) {
 				Equipo ganadorPuja = mejorPuja.getEquipoPuja();
 				ganadorPuja.aniadirJugador(j);
+				
 				System.out.println("El jugador " + ganadorPuja.getNombre() + " ha fichado a " + j.getNombre() + "por " + mejorPuja.getCantidadPuja() + " €");
 				vendidos.add(j);
 				
@@ -144,7 +148,6 @@ public class Mercado implements Serializable{
 		
 		equipoVendedor.setSaldo(jugadorVenta.getValor());
 		equipoVendedor.eliminarJugadorPlantilla(jugadorVenta);
-		
 		this.jugadoresLibres.add(jugadorVenta);
 		
 		return "Le has dicho a " + jugadorVenta.getNombre() + " que haga las maletas";

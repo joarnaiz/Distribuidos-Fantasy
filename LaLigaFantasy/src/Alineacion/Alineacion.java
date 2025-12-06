@@ -108,6 +108,7 @@ public class Alineacion implements Serializable{
 	public void limpiarAlineacion() {
 	    this.portero = null;
 	    this.jugadoresDeCampo.clear();
+	    
 	    System.out.println("Alineación vaciada");
 	}
 	
@@ -119,6 +120,7 @@ public class Alineacion implements Serializable{
 		if (this.portero != null && this.portero.equals(j)) {
 			return true;
 		}
+		
 		return this.jugadoresDeCampo.contains(j);
 	}
 	
