@@ -22,6 +22,7 @@ import Equipo.Equipo;
 import Jugador.Jugador;
 import Liga.Liga;
 import Mercado.Mercado;
+import Mercado.Oferta;
 import ObtenerJugadores.ObtenerJugadores;
 
 public class Servidor {
@@ -225,6 +226,54 @@ class Usuarios implements Runnable{
 		        		}catch (Exception e) {
 		        	        e.printStackTrace();
 		        	    }
+		        		break;
+		        	case "Hacer oferta":
+		        		try {
+		        			String nombEquipo = ois.readObject().toString();
+			        		int idJug = Integer.parseInt(ois.readObject().toString());
+			        		Double cant = Double.parseDouble(ois.readObject().toString());
+			        		
+			        		String msg = ""; 
+			        		if(cant<this.equipo.getSaldo()) {
+			        			msg = "Saldo insuficiente";
+			        		}
+			        		
+			        		Equipo rival = this.liga.getEquipoPorNombre(nombreEquipo);
+			        		
+			        		if(rival!=null) {
+			        			Jugador jugadorOferta =null;
+			        			for(Jugador j : rival.getJugadores()) {
+			        				if(j.getId()==idJug){
+			        					jugadorOferta = j;
+			        					break;
+			        				}
+			        			}
+			        			
+			        			if(jugadorOferta!=null) {
+			        				Oferta o = new Oferta(this.equipo,rival,jugadorOferta,cant);
+			        				rival.recibirOferta(o);
+			        				msg="Oferta enviada";
+			        			}else {
+			        				msg="Este equipo no tiene a este jugador";
+			        			}
+			        		}else {
+			        			msg="Este equipo no esta en la liga";
+			        		}
+			        		
+			        	
+			        		
+			        		oos.writeObject(msg);
+			        		oos.flush();
+		        		}catch(IOException e) {
+		        			e.printStackTrace();
+		        		}
+		        		
+		        		break;
+		        	
+		        	case "Buzon de ofertas":
+		        		oos.writeObject(this.equipo);
+		        		oos.reset();
+		        		oos.flush();
 		        		break;
 		        }
 	        }

@@ -12,6 +12,7 @@ import java.util.Scanner;
 import Equipo.Equipo;
 import Liga.Liga;
 import Mercado.Mercado;
+import Mercado.Oferta;
 
 public class ClienteFantasy {
 
@@ -328,7 +329,8 @@ public class ClienteFantasy {
             System.out.println("2. Pujar Jugador");
             System.out.println("3. Vender un jugador");
             System.out.println("4. Hacer oferta a Equipo rival");
-            System.out.println("5. Volver al Menu Principal");
+            System.out.println("5. Ver Ofertas");
+            System.out.println("6. Volver al Menu Principal");
             System.out.println();
             int opcion = s.nextInt();
             s.nextLine();
@@ -401,9 +403,61 @@ public class ClienteFantasy {
 	                break;
 	                
 	            case 4:
+	            	try {
+	            		System.out.println("Escribe el nombre del equipo al que vas a hacer la oferta");
+		            	String nombEq=s.nextLine();
+		            	System.out.println("Escribe el ID del jugador");
+		            	String id = s.nextLine();
+		            	System.out.println("¿Cuanto estas dispuesto a pagar?");
+		            	String cantidad = s.nextLine();
+	            		
+	            		oos.writeObject("Hacer oferta");
+		            	oos.writeObject(nombEq);
+		            	oos.writeObject(id);
+	            		oos.writeObject(cantidad);
+	            		oos.flush();
+	            		
+	            		System.out.println(ois.readObject());
+	            	}catch(IOException e) {
+	            		e.printStackTrace();
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
+	            	break;
+	            
+	            case 5:
+	            	try {
+	            		oos.writeObject("Buzon de ofertas");
+	            		oos.flush();
+	            		
+	            		Equipo e = (Equipo) ois.readObject();
+	            		
+	            		while(e.getOfertas().size()>0) {
+	            			for(Oferta o : e.getOfertas()) {
+	            				System.out.println("Tienes una oferta (A/R)");
+	            				System.out.println(o);
+	            				
+	            				String aceptarRechazar = s.nextLine();
+	            				if(aceptarRechazar.equalsIgnoreCase("A")) {
+	            					//Habria que mandarle un mensaje al servidor y que lo gestione o que directamente lo gestione todo el
+	            				}else if(aceptarRechazar.equalsIgnoreCase("R")) {
+	            					e.eliminarOferta(o);
+	            				}
+	            			}
+	            		}
+	            		
+	            		
+	            	}catch(IOException e) {
+	            		e.printStackTrace();
+	            	} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	break;
 	            	
-	            case 5: 
+	            case 6: 
 	            	salir = true;
 	            	break;
 	            	
