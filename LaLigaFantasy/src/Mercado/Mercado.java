@@ -64,6 +64,13 @@ public class Mercado implements Serializable{
 		System.out.println("Tiempo antes de que actualice: " + crono);
 	}
 	
+	public List<Puja> getPujas(){
+		return this.listaPujas;
+	}
+	public void eliminarPuja(Puja p) {
+		this.listaPujas.remove(p);
+	}
+	
 	public String pujarJugador(int opcion, Equipo equipo, double tuPuja) {
 		if (opcion < 1 || opcion > jugadoresDisponibles.size() || tuPuja < jugadoresDisponibles.get(opcion-1).getValor()) {
 			return "Error al pujar por el jugador";

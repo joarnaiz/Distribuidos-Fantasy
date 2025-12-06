@@ -39,6 +39,7 @@ public class ObtenerJugadores {
 		return this.Jugadores;
 	}
 
+	//Primero obtenenmo los equipos (selecciones), y con ellos y las posiciones en el campo conseguimos todos los jugadores
 	public static ArrayList<String> obtenerEquipos() {
 		ArrayList<String> listaEquipos = new ArrayList<>();
 		try {
@@ -151,13 +152,13 @@ class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 			
 			String cuerpo = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 					"<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-			        "  <soap:Body>" +
-			        "    <AllPlayersWithRole xmlns=\"https://footballpool.dataaccess.eu\">" +
-			        "      <sTeamName>" + this.pais + "</sTeamName>" + 
-			        "      <sRoleCode>" + posicionAPI + "</sRoleCode>" +
-			        "    </AllPlayersWithRole>" +
-			        "  </soap:Body>" +
-			        "</soap:Envelope>";
+					"  <soap:Body>" +
+					"    <AllPlayersWithRole xmlns=\"https://footballpool.dataaccess.eu\">" +
+					"      <sTeamName>" + this.pais + "</sTeamName>" + 
+					"      <sRoleCode>" + posicionAPI + "</sRoleCode>" +
+					"    </AllPlayersWithRole>" +
+					"  </soap:Body>" +
+					"</soap:Envelope>";
 			
 			try(OutputStream out = con.getOutputStream()){
 				out.write(cuerpo.getBytes("utf-8"));
@@ -174,10 +175,11 @@ class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 			
 			for(int i=0;i<jugadores.getLength();i++) {
 				String nombre = jugadores.item(i).getTextContent();
-				double precio = r.nextInt(1, 50)*1000000;
+				double precio = r.nextInt(1, 50)*1000000; //Le asignamos un valor aleatorio
 				Jugador j = new Jugador(nombre,posicionJuego,this.pais,precio);
 				jugadoresPorPosicion.add(j);
 			}
+			
 			
 		}catch(IOException e){
 			e.printStackTrace();

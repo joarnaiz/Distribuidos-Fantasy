@@ -59,7 +59,8 @@ public class ClienteFantasy {
 						break;
 						
 					case 4:
-						//Enviar al servidor que ha abandonado la liga para que borre todos sus datos.
+						oos.writeObject("DIMITO");
+						oos.flush();
 						salir=true;
 						break;
 						
@@ -326,7 +327,8 @@ public class ClienteFantasy {
             System.out.println("1. Ver Jugadores en Venta");
             System.out.println("2. Pujar Jugador");
             System.out.println("3. Vender un jugador");
-            System.out.println("4. Volver al Menu Principal");
+            System.out.println("4. Hacer oferta a Equipo rival");
+            System.out.println("5. Volver al Menu Principal");
             System.out.println();
             int opcion = s.nextInt();
             s.nextLine();
@@ -397,8 +399,11 @@ public class ClienteFantasy {
 	                    e.printStackTrace();
 	                }
 	                break;
+	                
+	            case 4:
+	            	break;
 	            	
-	            case 4: 
+	            case 5: 
 	            	salir = true;
 	            	break;
 	            	

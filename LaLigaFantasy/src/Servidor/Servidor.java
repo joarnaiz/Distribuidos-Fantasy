@@ -48,11 +48,10 @@ public class Servidor {
 					//Hilo que controla la actualizacion del mercado.
 					Timer t = new Timer();
 					t.scheduleAtFixedRate(new ActualizaMercado(liga.getMercado()) ,0,10*60*1000);
-					t.scheduleAtFixedRate(new Jornada(todosJugadores,liga,t),10000,20000);
 					
-					
-					
-					
+					//Hilo que controla las jornadas
+					t.scheduleAtFixedRate(new Jornada(todosJugadores,liga,t),10*60*1000,30*60*1000);
+						
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
@@ -129,6 +128,12 @@ class Usuarios implements Runnable{
 	        	String opcion = ois.readObject().toString();        
 		        switch(opcion) {
 		        
+		        	case "DIMITO":
+		        		this.liga.dimision(this.equipo);
+		        		System.out.println(this.equipo + " ha abandonado la liga");
+		        		salir=true;
+		        		break;
+		        
 		        	//---------EQUIPO-----------
 		        	case "Ver plantilla":
 		        		oos.writeObject(this.equipo);
@@ -167,7 +172,7 @@ class Usuarios implements Runnable{
 		        		String saldoEquipo = String.format("Tu saldo es %.2f €", this.equipo.getSaldo());
 		        		String valorEquipo = String.format("y tu equipo tiene un valor de %.2f €", valorEq);
 		        		String eco = saldoEquipo + " " + valorEquipo;
-		        		oos.writeObject(ois);
+		        		oos.writeObject(eco);
 		        		oos.flush();
 		        		break;
 		        		
@@ -300,16 +305,13 @@ class Jornada extends TimerTask{
 					j.setPuntosJornada(jornadaActual,n);
 					j.aniadirValor(n*100000.0);
 					puntosE+=n;
-					System.out.println(j.getPuntos());
 				}
 				e.setPuntosJornada(jornadaActual,puntosE);
-				System.out.println(e.getPuntos());
 			}
 			
 			this.liga.actualizarClasificacion();
 			this.liga.actualizarClasificacionJornada(jornadaActual);
 		}
-		System.out.println("Se ha actualizado");
 		this.jornadaActual++;
 	}
 	

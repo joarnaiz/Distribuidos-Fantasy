@@ -9,6 +9,8 @@ import java.util.Map;
 import Equipo.Equipo;
 import Jugador.Jugador;
 import Mercado.Mercado;
+import Mercado.Oferta;
+import Mercado.Puja;
 
 public class Liga implements Serializable{
 	
@@ -111,5 +113,22 @@ public class Liga implements Serializable{
 			}
 		}
 		return null;
+	}
+	
+	public synchronized void dimision(Equipo e) {
+		if(e.getOfertas().size()>0) {
+			for(Oferta o : e.getOfertas()) {
+				e.eliminarOferta(o);
+			}
+		}
+		
+		for(Puja p : this.mercado.getPujas()) {
+			if(p.getEquipoPuja().getNombre().equalsIgnoreCase(e.getNombre())) {
+				this.mercado.eliminarPuja(p);
+			}
+		}
+		this.jugadoresLibres.addAll(e.getJugadores());
+		this.clasificacion.remove(e);
+		
 	}
 }
