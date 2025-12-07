@@ -153,46 +153,4 @@ public class Mercado implements Serializable{
 		return "Le has dicho a " + jugadorVenta.getNombre() + " que haga las maletas";
 	}
 	
-	public String aceptarOferta(Oferta oferta) {
-		Equipo comprador = oferta.getComprador();
-		Equipo vendedor = oferta.getVendedor();
-		Jugador jugador = oferta.getJugadorAFichar();
-		double precio = oferta.getCantidadTraspaso();
-		
-		if (comprador.getSaldo() < precio) {
-	        vendedor.eliminarOferta(oferta);
-	        return "No se ha podido realizar el traspaso porque el comprador se ha quedado sin saldo.";
-	    }
-		
-		if (vendedor.jugadorEnEquipo(jugador.getId()) == null) {
-	        vendedor.eliminarOferta(oferta);
-	        return "Error, este jugador ya no está en tu plantilla.";
-	    }
-		
-		comprador.setSaldo(-precio);
-		vendedor.setSaldo(precio);
-		
-		comprador.aniadirJugador(jugador);
-		vendedor.eliminarJugadorPlantilla(jugador);
-		
-		// Eliminamos TODAS las ofertas que ha recibido el vendedor por ese jugador
-		List<Oferta> ofertasBasura = new ArrayList<>();
-		
-		for (Oferta o : vendedor.getOfertas()) {
-			if (o.getJugadorAFichar().getId() == jugador.getId()) {
-				ofertasBasura.add(o);
-			}
-		}
-		
-		vendedor.getOfertas().removeAll(ofertasBasura);
-		
-		return "Has vendido a " + jugador.getNombre() + " a tu rival" + comprador.getNombre() + " por " + precio + "€";
-	}
-	
-	public String rechazarOferta(Oferta oferta) {
-		Equipo vendedor = oferta.getVendedor();
-		vendedor.eliminarOferta(oferta);
-		
-		return "Oferta rechazada, el jugador " + oferta.getJugadorAFichar() + " se queda en tu club";
-	}
 }

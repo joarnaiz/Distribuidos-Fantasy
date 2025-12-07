@@ -447,30 +447,27 @@ public class ClienteFantasy {
 	            			break;
 	            		}
 	            		
-	            		// Iteramos con la copia
-	            		List<Oferta> copia = new ArrayList<>(e.getOfertas());
-	            		
-	           			for(Oferta o : copia) {
+	           			for(Oferta o : e.getOfertas()) {
 	           				System.out.println("----- OFERTA -----");
 	           				System.out.println(o);
 	           				System.out.println("Pulsa A para aceptar la oferta o R para rechazarla. Escribe cualquier otra cosa para no resolverla");
 	           				
-	           				String aceptarRechazar = s.next();
+	           				String aceptarRechazar = s.nextLine();
 	           				
-	           				if(aceptarRechazar.equalsIgnoreCase("A") || aceptarRechazar.equalsIgnoreCase("a")) {
-	            				oos.writeObject("Aceptar oferta");
+	           				if(aceptarRechazar.equalsIgnoreCase("A")) {
+	           					oos.writeObject(aceptarRechazar);
 	            				oos.writeObject(o);
 	            				oos.flush();
 	            				
-	            				String respuesta = (String) ois.readObject();
+	            				String respuesta = ois.readObject().toString();
 	            				System.out.println(respuesta);
 	            					
-	            			}else if(aceptarRechazar.equalsIgnoreCase("R") || aceptarRechazar.equalsIgnoreCase("r")) {
-	            				oos.writeObject("Rechazar oferta");
+	            			}else if(aceptarRechazar.equalsIgnoreCase("R")) {
+	            				oos.writeObject(aceptarRechazar);
 	            				oos.writeObject(o);
 	            				oos.flush();
 	            				
-	            				String respuesta = (String) ois.readObject();
+	            				String respuesta = ois.readObject().toString();
 	            				System.out.println(respuesta);
 	            			}
 	            		}

@@ -248,7 +248,7 @@ class Usuarios implements Runnable{
 				        		
 				        		if(rival!=null) {
 				        			if (rival.getNombre().equals(this.equipo.getNombre())) {
-				        				msg = "No puedes hacerte ofertas a ti mismo");
+				        				msg = "No puedes hacerte ofertas a ti mismo";
 				        			}else {
 				        				Jugador jugadorOferta =null;
 					        			for(Jugador j : rival.getJugadores()) {
@@ -285,22 +285,20 @@ class Usuarios implements Runnable{
 		        		oos.writeObject(this.equipo);
 		        		oos.reset();
 		        		oos.flush();
-		        		break;
 		        		
-		        	case "Aceptar oferta":
-		        		Oferta o = (Oferta) ois.readObject();
-		        		
-		        		String respuesta = this.liga.getMercado().aceptarOferta(o);
-		        		oos.writeObject(respuesta);
-		        		oos.flush();
-		        		break;
-		        		
-		        	case "Rechazar oferta":
-		        		Oferta of = (Oferta) ois.readObject();
-		        		
-		        		String res = this.liga.getMercado().rechazarOferta(of);
-		        		oos.writeObject(res);
-		        		oos.flush();
+		        		if(ois.readObject().toString().equalsIgnoreCase("A")) {
+		        			Oferta o = (Oferta) ois.readObject();
+			        		
+			        		String respuesta = this.liga.getMercado().aceptarOferta(o);
+			        		oos.writeObject(respuesta);
+			        		oos.flush();
+		        		}else if(ois.readObject().toString().equalsIgnoreCase("R")) {
+		        			Oferta of = (Oferta) ois.readObject();
+			        		
+			        		String res = this.liga.getMercado().rechazarOferta(of);
+			        		oos.writeObject(res);
+			        		oos.flush();
+		        		}
 		        		break;
 		        }
 	        }
