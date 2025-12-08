@@ -90,13 +90,13 @@ class Usuarios implements Runnable{
 			this.liga.aniadirEquipo(this.equipo);
 			
 			try {
+				//Para que no haya un jugador repetido en dos equipos a la hora de dar los 11 jugadores iniciales de cada equipo lo hacemos con un semaforo
 				this.semaforo.acquire();
 				
-				Collections.shuffle(this.liga.getJugadoresLibres());
+				Collections.shuffle(this.liga.getJugadoresLibres()); //Para que no estén ordenados tal y como se han añadido
 				
 				Iterator<Jugador> it = this.liga.getJugadoresLibres().iterator();
-		        while (it.hasNext()) {
-		        	
+		        while (it.hasNext()) {	        	
 		            Jugador j = it.next();
 		            if (j.getPosicion().toString().equalsIgnoreCase("Portero")) {
 		                this.equipo.aniadirJugador(j);
@@ -108,7 +108,6 @@ class Usuarios implements Runnable{
 		        int contador = 0;
 		        it = this.liga.getJugadoresLibres().iterator(); 
 		        while (it.hasNext() && contador < 10) {
-		        	
 		            Jugador j = it.next();
 		            if (!j.getPosicion().toString().equalsIgnoreCase("Portero")) {
 		                this.equipo.aniadirJugador(j);
@@ -250,14 +249,13 @@ class Usuarios implements Runnable{
 				        			if (rival.getNombre().equals(this.equipo.getNombre())) {
 				        				msg = "No puedes hacerte ofertas a ti mismo";
 				        			}else {
-				        				Jugador jugadorOferta =null;
+				        				Jugador jugadorOferta=null;
 					        			for(Jugador j : rival.getJugadores()) {
 					        				if(j.getId()==idJug){
 					        					jugadorOferta = j;
 					        					break;
 					        				}
 					        			}
-					        			
 					        			if(jugadorOferta!=null) {
 					        				Oferta o = new Oferta(this.equipo,rival,jugadorOferta,cant);
 					        				rival.recibirOferta(o);
@@ -289,13 +287,17 @@ class Usuarios implements Runnable{
 		        		if(ois.readObject().toString().equalsIgnoreCase("A")) {
 		        			Oferta o = (Oferta) ois.readObject();
 			        		
-			        		String respuesta = this.liga.getMercado().aceptarOferta(o);
+		        			String comprador = o.getComprador().getNombre();
+		        			String vendedor = o.getVendedor().getNombre();
+		        			
+		        			Oferta actual = new Oferta(this.liga.getEquipoPorNombre(comprador),this.liga.getEquipoPorNombre(vendedor),o.getJugadorAFichar(),o.getCantidadTraspaso());
+			        		String respuesta = this.liga.getEquipoPorNombre(actual.getVendedor().getNombre()).aceptarOferta(actual);
 			        		oos.writeObject(respuesta);
 			        		oos.flush();
 		        		}else if(ois.readObject().toString().equalsIgnoreCase("R")) {
-		        			Oferta of = (Oferta) ois.readObject();
+		        			Oferta o = (Oferta) ois.readObject();
 			        		
-			        		String res = this.liga.getMercado().rechazarOferta(of);
+			        		String res = this.liga.getEquipoPorNombre(o.getVendedor().getNombre()).rechazarOferta(o);
 			        		oos.writeObject(res);
 			        		oos.flush();
 		        		}
@@ -314,8 +316,7 @@ class Usuarios implements Runnable{
 			
 		}finally {
 			try {
-				this.cliente.close();
-				
+				this.cliente.close();			
 			} catch (IOException e) {
 				e.printStackTrace();
 				
@@ -367,7 +368,7 @@ class Jornada extends TimerTask{
 			return;
 		}
 		
-		synchronized(this.liga) { //Para que mientras se actualizan las clasificaciones y asi no ver otras versiones	
+		synchronized(this.liga) { //Para que mientras se actualizan las clasificaciones no ver otras versiones	
 			for(Jugador j : this.liga.getJugadoresLibres()) {
 				int n = r.nextInt(-5, 15);
 				j.setPuntosJornada(jornadaActual,n);

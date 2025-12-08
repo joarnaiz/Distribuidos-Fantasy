@@ -60,11 +60,19 @@ public class Jugador implements Serializable{
 	
 	public void aniadirValor(double valor) {
 		this.valor+=valor;
-		if(this.valor<500000.0) {
+		if(this.valor<500000.0) { //Para que el valor mínimo de un jugador no baje de 500.000
 			this.valor=500000.0;
 		}
 	}
-	
+
+	public boolean esPortero() {
+        return this.posicion == Posicion.PORTERO;
+    }
+
+    public boolean esJugadorDeCampo() {
+        return this.posicion == Posicion.DECAMPO;
+    }
+    
 	@Override
 	public boolean equals(Object j) {
 	    if (this == j) return true;         
@@ -79,13 +87,6 @@ public class Jugador implements Serializable{
 		return stringJugador;
 	}
 	
-	public boolean esPortero() {
-        return this.posicion == Posicion.PORTERO;
-    }
-
-    public boolean esJugadorDeCampo() {
-        return this.posicion == Posicion.DECAMPO;
-    }
 
 }
 

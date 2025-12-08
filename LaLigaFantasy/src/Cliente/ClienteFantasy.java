@@ -401,7 +401,7 @@ public class ClienteFantasy {
 	                    oos.writeObject(idJugadorVenta);
 	                    oos.flush();
 	                    
-	                    String respuesta = (String) ois.readObject();
+	                    String respuesta = ois.readObject().toString();
 	                    System.out.println(respuesta);
 	                    
 	            	}catch (IOException | ClassNotFoundException e) {
@@ -440,7 +440,7 @@ public class ClienteFantasy {
 	            		oos.writeObject("Buzon de ofertas");
 	            		oos.flush();
 	            		
-	            		Equipo e = (Equipo) ois.readObject();
+	            		Equipo e = (Equipo)ois.readObject();
 	            		
 	            		if(e.getOfertas().isEmpty()) {
 	            			System.out.println("No tienes ofertas pendientes");
@@ -454,22 +454,12 @@ public class ClienteFantasy {
 	           				
 	           				String aceptarRechazar = s.nextLine();
 	           				
-	           				if(aceptarRechazar.equalsIgnoreCase("A")) {
-	           					oos.writeObject(aceptarRechazar);
-	            				oos.writeObject(o);
-	            				oos.flush();
-	            				
-	            				String respuesta = ois.readObject().toString();
-	            				System.out.println(respuesta);
-	            					
-	            			}else if(aceptarRechazar.equalsIgnoreCase("R")) {
-	            				oos.writeObject(aceptarRechazar);
-	            				oos.writeObject(o);
-	            				oos.flush();
-	            				
-	            				String respuesta = ois.readObject().toString();
-	            				System.out.println(respuesta);
-	            			}
+	           				oos.writeObject(aceptarRechazar);
+            				oos.writeObject(o);
+            				oos.flush();
+            				
+            				String respuesta = ois.readObject().toString();
+            				System.out.println(respuesta);
 	            		}
 	           			
 	            	}catch(IOException e) {

@@ -76,35 +76,6 @@ public class Alineacion implements Serializable{
 		}
 	}
 	
-	/* Lo he hecho en equipo para comprobar que ambos estan en el equipo
-	 * 
-	public boolean cambiarJugador(Jugador fuera, Jugador dentro) {
-		if (!alineado(fuera)) {
-			System.out.println("El jugador que quieres sacar no está en la alineación");
-			return false;
-		}
-		
-		if(alineado(dentro)) {
-			System.out.println("El jugador que entra ya está alineado");
-			return false;
-		}
-		
-		boolean eliminado = eliminarJugador(fuera);
-		if (!eliminado) {
-			return false;
-		}
-		
-		boolean aniadido = aniadirJugador(dentro);
-		if (!aniadido) {
-			aniadirJugador(fuera); // Si falla, volvemos a meter al jugador que se ha ido para que quede igual
-			System.out.println("No se pudo añadir al jugador");
-			return false;
-		}
-		System.out.println("El jugador " + fuera.getNombre() + " ha sido sustituido por " + dentro.getNombre());
-		return true;
-	}
-	*/
-	
 	public void limpiarAlineacion() {
 	    this.portero = null;
 	    this.jugadoresDeCampo.clear();
@@ -131,5 +102,4 @@ public class Alineacion implements Serializable{
 	public ArrayList<Jugador> getJugadoresDeCampo() {
 		return jugadoresDeCampo;
 	}
-
 }

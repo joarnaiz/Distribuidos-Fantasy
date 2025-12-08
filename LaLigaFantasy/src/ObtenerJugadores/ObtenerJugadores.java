@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -57,8 +58,9 @@ public class ObtenerJugadores {
 					+ "  </soap:Body>\r\n"
 					+ "</soap:Envelope>";
 			
-			try(OutputStream out = con.getOutputStream()){
-				out.write(cuerpo.getBytes("utf-8"));
+			try(PrintWriter out = new PrintWriter(con.getOutputStream())){
+				out.write(cuerpo);
+				out.flush();
 			}
 			
 			InputStream in = con.getInputStream();
@@ -156,8 +158,9 @@ class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 					"  </soap:Body>" +
 					"</soap:Envelope>";
 			
-			try(OutputStream out = con.getOutputStream()){
-				out.write(cuerpo.getBytes("utf-8"));
+			try(PrintWriter out = new PrintWriter(con.getOutputStream())){
+				out.write(cuerpo);
+				out.flush();
 			}
 			
 			InputStream in = con.getInputStream();
@@ -175,8 +178,7 @@ class JugadorPorPais implements Callable<ArrayList<Jugador>>{
 				Jugador j = new Jugador(nombre,posicionJuego,this.pais,precio);
 				jugadoresPorPosicion.add(j);
 			}
-			
-			
+					
 		}catch(IOException e){
 			e.printStackTrace();
 			

@@ -115,7 +115,7 @@ public class Liga implements Serializable{
 		return null;
 	}
 	
-	public synchronized void dimision(Equipo e) {
+	public synchronized void dimision(Equipo e) { //Borramos al equipo de la clasificacion, los jugadores los añadimos a la lista de jugadores libres y eliminamos las ofertas qye haya por esos jugadores
 		if(e.getOfertas().size()>0) {
 			for(Oferta o : e.getOfertas()) {
 				e.eliminarOferta(o);

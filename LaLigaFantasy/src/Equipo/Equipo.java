@@ -11,11 +11,9 @@ import Mercado.Oferta;
 
 public class Equipo implements Serializable{
 	
-	//POner el atributo de serializable(en alguna de las practicas esta, ya lo mirare)
-	
 	private String nombre;
 	private int puntosTotales;
-	private HashMap<Integer,Integer> puntosJornada;
+	private HashMap<Integer,Integer> puntosJornada; //Para saber los puntos que se han hecho cada jornada
 	private ArrayList<Jugador> plantilla;
 	private Alineacion alineacion;
 	private static final int MAX_JUGADORES_PlANTILLA = 22;
@@ -158,7 +156,6 @@ public class Equipo implements Serializable{
 		this.ofertas.remove(oferta);
 	}
 	
-	
 	public String aceptarOferta(Oferta oferta) {
 		Equipo comprador = oferta.getComprador(); 
 		Equipo vendedor = oferta.getVendedor();
@@ -180,7 +177,6 @@ public class Equipo implements Serializable{
 		
 		vendedor.eliminarJugadorPlantilla(jugador);
 		comprador.aniadirJugador(jugador);
-		
 		
 		// Eliminamos TODAS las ofertas que ha recibido el vendedor por ese jugador
 		List<Oferta> ofertasBasura = new ArrayList<>();
@@ -217,7 +213,7 @@ public class Equipo implements Serializable{
 	} 
 	
 	public String toString() {
-		return this.nombre + " con " + this.puntosTotales +"\n";
+		return this.nombre + " con " + this.puntosTotales;
 	}
 
 }
